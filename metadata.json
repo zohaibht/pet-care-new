@@ -1,9 +1,0 @@
-{
-  "name": "Aagaz - Pet Care Companion",
-  "description": "A comprehensive pet health and lifestyle management application featuring diet tracking, symptom checking, and breed exploration.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone",
-    "geolocation"
-  ]
-}

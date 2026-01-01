@@ -1,20 +1,32 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# To-Do List App
 
-# Run and deploy your AI Studio app
+This is a simple to-do list application built with React, Vite, and Tailwind CSS.
 
-This contains everything you need to run your app locally.
+## Getting Started
 
-View your app in AI Studio: https://ai.studio/apps/drive/1d5NTE_NQAgq6-xwZmlIIoSo3y5x1mmzk
+To get a local copy up and running, follow these simple steps.
 
-## Run Locally
+### Prerequisites
 
-**Prerequisites:**  Node.js
+* [Node.js](https://nodejs.org/) (which includes npm)
 
+### Installation
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+1. Clone the repo
+   ```sh
+   git clone https://github.com/your_username_/your_project_name.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+
+### Running the Application
+
+To run the app in development mode, use the following command:
+
+```sh
+npm run dev
+```
+
+This will start the development server, and you can view the application in your browser at `http://localhost:5173`.
