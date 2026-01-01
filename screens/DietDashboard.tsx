@@ -12,11 +12,11 @@ import {
 } from '../components/Native';
 import { Pet } from '../types';
 
-interface DietDashboardProps {
+export interface DietDashboardProps {
   pet: Pet;
 }
 
-const DietDashboard = ({ pet }: DietDashboardProps) => {
+const DietDashboard: React.FC<DietDashboardProps> = ({ pet }) => {
   const navigate = useNavigate();
 
   return (

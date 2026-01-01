@@ -3,11 +3,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Pet } from '../types';
 
-interface SymptomCheckerProps {
+export interface SymptomCheckerProps {
   pet: Pet;
 }
 
-const SymptomChecker = ({ pet }: SymptomCheckerProps) => {
+const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
   const navigate = useNavigate();
 
   return (
@@ -39,7 +39,6 @@ const SymptomChecker = ({ pet }: SymptomCheckerProps) => {
           className="h-64 object-contain filter drop-shadow-2xl"
         />
         
-        {/* Pulsing Targets */}
         <div className="absolute top-16 right-1/3 translate-x-4">
           <div className="w-4 h-4 bg-primary/40 rounded-full animate-ping absolute"></div>
           <div className="w-4 h-4 bg-primary border-2 border-white rounded-full relative shadow-glow"></div>

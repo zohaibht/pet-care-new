@@ -15,11 +15,11 @@ import { Pet } from '../types';
 
 const { width } = Dimensions.get('window');
 
-interface HomeDashboardProps {
+export interface HomeDashboardProps {
   pet: Pet;
 }
 
-const HomeDashboard = ({ pet }: HomeDashboardProps) => {
+const HomeDashboard: React.FC<HomeDashboardProps> = ({ pet }) => {
   const navigate = useNavigate();
 
   return (
