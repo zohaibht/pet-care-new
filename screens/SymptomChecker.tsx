@@ -27,7 +27,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
         <div className="inline-flex items-center gap-3 bg-white dark:bg-card-dark px-4 py-2 rounded-full shadow-sm border border-gray-50 dark:border-gray-800">
           <img src={pet.avatar} alt="Pet" className="w-8 h-8 rounded-full border-2 border-primary object-cover" />
           <span className="text-sm font-bold dark:text-white">{pet.name} ({pet.breed})</span>
-          <span className="material-icons-round text-gray-400 text-sm">expand_more</span>
+          <span className="material-icons-round text-gray-200 text-sm">expand_more</span>
         </div>
       </div>
 
@@ -39,20 +39,10 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
           className="h-64 object-contain filter drop-shadow-2xl"
         />
         
-        <div className="absolute top-16 right-1/3 translate-x-4">
-          <div className="w-4 h-4 bg-primary/40 rounded-full animate-ping absolute"></div>
-          <div className="w-4 h-4 bg-primary border-2 border-white rounded-full relative shadow-glow"></div>
-        </div>
-        
         <div onClick={() => navigate('/diagnosis')} className="absolute top-32 left-1/2 -translate-x-8 cursor-pointer">
           <div className="bg-card-dark text-white text-[10px] font-bold py-1.5 px-3 rounded-lg shadow-xl mb-2 whitespace-nowrap animate-bounce">Torso & Stomach</div>
           <div className="w-5 h-5 bg-primary/40 rounded-full animate-ping absolute left-1/2 -translate-x-1/2"></div>
           <div className="w-5 h-5 bg-primary border-4 border-white rounded-full relative shadow-glow mx-auto"></div>
-        </div>
-
-        <div className="absolute bottom-16 right-1/3 translate-x-2">
-          <div className="w-4 h-4 bg-primary/40 rounded-full animate-ping absolute"></div>
-          <div className="w-4 h-4 bg-primary border-2 border-white rounded-full relative shadow-glow"></div>
         </div>
 
         <p className="absolute bottom-0 text-[10px] text-gray-400 font-bold italic">Tap on the body area to focus symptoms</p>
@@ -65,28 +55,9 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
         </div>
         
         <div className="space-y-4">
-          <SymptomItem 
-            title="Vomiting" 
-            desc="Frequent or acute stomach upset" 
-            icon="sick" 
-            color="bg-orange-100 text-orange-500" 
-            onClick={() => navigate('/diagnosis')}
-          />
+          <SymptomItem title="Vomiting" desc="Frequent or acute stomach upset" icon="sick" color="bg-orange-100 text-orange-500" onClick={() => navigate('/diagnosis')} />
           <SymptomItem title="Itching & Scratching" desc="Skin irritation or parasites" icon="pest_control" color="bg-blue-100 text-blue-500" />
           <SymptomItem title="Limping" desc="Difficulty walking or joint pain" icon="pets" color="bg-purple-100 text-purple-500" />
-          <SymptomItem title="Lethargy" desc="Unusual tiredness or lack of energy" icon="bedtime" color="bg-red-100 text-red-500" />
-        </div>
-
-        <div className="mt-8 bg-gradient-to-r from-primary to-blue-400 p-6 rounded-3xl shadow-lg relative overflow-hidden group">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full translate-x-10 -translate-y-10 group-hover:scale-110 transition-transform"></div>
-          <div className="relative z-10 text-white">
-            <h3 className="font-bold text-lg mb-1">Emergency Help?</h3>
-            <p className="text-blue-50 text-[10px] mb-4 max-w-[80%]">If your pet is in critical condition, connect with a vet immediately.</p>
-            <button className="bg-white text-primary px-5 py-2.5 rounded-xl text-sm font-bold shadow-soft flex items-center gap-2">
-              <span className="material-icons-round text-base">call</span>
-              Call Vet Now
-            </button>
-          </div>
         </div>
       </div>
     </div>
@@ -94,10 +65,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
 };
 
 const SymptomItem: React.FC<{ title: string; desc: string; icon: string; color: string; onClick?: () => void }> = ({ title, desc, icon, color, onClick }) => (
-  <button 
-    onClick={onClick}
-    className="w-full bg-white dark:bg-card-dark p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary/20 transition-all flex items-center gap-4 text-left group"
-  >
+  <button onClick={onClick} className="w-full bg-white dark:bg-card-dark p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary/20 transition-all flex items-center gap-4 text-left group">
     <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center shrink-0`}>
       <span className="material-icons-round">{icon}</span>
     </div>
