@@ -21,11 +21,6 @@ import BottomNav from './components/BottomNav';
 
 const { width } = Dimensions.get('window');
 
-/**
- * NATIVE-FIRST APP COMPONENT
- * This version uses a custom state router instead of react-router-dom
- * to ensure it runs flawlessly on Expo Snack (iOS, Android, and Web).
- */
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.SPLASH);
   const [screenParams, setScreenParams] = useState<any>(null);
@@ -39,14 +34,12 @@ export default function App() {
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD9S7paQ1xTCW-V7shP8Ce4ixIU4remZv9ACy2aM0-valnUR9aLhPme65i1o_3sfugnas8d6lS41skZDZYwRMJ4bpb6l4S0NAXoNlxqcEVB1kRZiR6gJpi_9hlG7fhK6aBlsP2CP1_Thyn-Xxq5RkbZtqwLvOJgNtd2MSk4VZcRO-6YlsEc3n3yXouiPekl-v2PHg68cQ5kb0DUrgNYhBGGUaXM827PBqpbKaD5PYSmQi0MyFdUgoq9CldmqcHAB3cNbYf8SZKPirsE'
   });
 
-  // Simple Native Router Implementation
   const navigate = useCallback((screen: Screen, params?: any) => {
     setCurrentScreen(screen);
     if (params) setScreenParams(params);
   }, []);
 
   const goBack = useCallback(() => {
-    // Simple history management could be added here if needed
     navigate(Screen.HOME);
   }, [navigate]);
 
