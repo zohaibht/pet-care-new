@@ -1,14 +1,15 @@
 
 import React from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, MaterialIcon, Dimensions } from '../components/Native';
 
 const { width } = Dimensions.get('window');
 
-const BreedDetails: React.FC = () => {
-  const navigate = useNavigate();
-  const { id } = useParams();
+interface BreedDetailsProps {
+  breedId: string;
+  onBack: () => void;
+}
 
+const BreedDetails: React.FC<BreedDetailsProps> = ({ breedId, onBack }) => {
   return (
     <View style={styles.container}>
       <View style={styles.heroContainer}>
@@ -17,7 +18,7 @@ const BreedDetails: React.FC = () => {
           style={styles.heroImg}
         />
         <View style={styles.topNav}>
-          <TouchableOpacity onPress={() => navigate(-1)} style={styles.navBtn}>
+          <TouchableOpacity onPress={onBack} style={styles.navBtn}>
             <MaterialIcon name="arrow_back" size={24} color="#FFF" />
           </TouchableOpacity>
           <View style={styles.navRight}>
@@ -89,7 +90,6 @@ const BreedDetails: React.FC = () => {
 const StatBox = ({ icon, label, value, color, iconColor }: any) => (
   <View style={styles.statBox}>
     <View style={[styles.statIcon, { backgroundColor: color }]}>
-      {/* Fix: iconColor changed to color to match MaterialIcon prop expectations */}
       <MaterialIcon name={icon} size={20} color={iconColor} />
     </View>
     <View>

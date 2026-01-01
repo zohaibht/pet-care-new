@@ -1,10 +1,12 @@
 
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, MaterialIcon } from '../components/Native';
 
-const FoodChecker: React.FC = () => {
-  const navigate = useNavigate();
+interface FoodCheckerProps {
+  onBack: () => void;
+}
+
+const FoodChecker: React.FC<FoodCheckerProps> = ({ onBack }) => {
   const [search, setSearch] = useState('Grapes');
 
   const categories = [
@@ -20,7 +22,7 @@ const FoodChecker: React.FC = () => {
       <View style={styles.header}>
         <View style={styles.headerTop}>
           <View style={styles.headerLeft}>
-            <TouchableOpacity onPress={() => navigate(-1)} style={styles.backBtn}>
+            <TouchableOpacity onPress={onBack} style={styles.backBtn}>
               <MaterialIcon name="arrow_back" color="#FFF" size={24} />
             </TouchableOpacity>
             <View>
@@ -66,16 +68,18 @@ const FoodChecker: React.FC = () => {
             <Text style={styles.sectionTitle}>Categories</Text>
             <TouchableOpacity><Text style={styles.seeAll}>See All</Text></TouchableOpacity>
           </View>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.catScroll}>
-            {categories.map((cat, i) => (
-              <TouchableOpacity key={i} style={styles.catBtn}>
-                <View style={[styles.catIcon, { backgroundColor: cat.color }]}>
-                  <Text style={styles.catEmoji}>{cat.emoji}</Text>
-                </View>
-                <Text style={styles.catLabel}>{cat.label}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <View style={styles.catWrapper}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.catContent}>
+              {categories.map((cat, i) => (
+                <TouchableOpacity key={i} style={styles.catBtn}>
+                  <View style={[styles.catIcon, { backgroundColor: cat.color }]}>
+                    <Text style={styles.catEmoji}>{cat.emoji}</Text>
+                  </View>
+                  <Text style={styles.catLabel}>{cat.label}</Text>
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
         </View>
 
         <View style={styles.section}>
@@ -110,16 +114,16 @@ const FoodListItem = ({ name, desc, status, emoji, isSafe }: any) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { backgroundColor: '#0EA5E9', paddingTop: 60, pb: 40, px: 24, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, paddingBottom: 40 },
-  headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
+  header: { backgroundColor: '#0EA5E9', paddingTop: 60, px: 24, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, paddingBottom: 40 },
+  headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingHorizontal: 24 },
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 16 },
   backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(255, 255, 255, 0.2)', justifyContent: 'center', alignItems: 'center' },
   title: { fontSize: 24, fontWeight: '800', color: '#FFF' },
   subtitle: { fontSize: 13, color: '#E0F2FE' },
   notifBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(255, 255, 255, 0.2)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)' },
-  searchBox: { height: 60, backgroundColor: '#FFF', borderRadius: 20, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 10 },
+  searchBox: { height: 60, backgroundColor: '#FFF', borderRadius: 20, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, marginHorizontal: 24, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 10 },
   searchIcon: { marginRight: 12 },
-  searchInput: { flex: 1, fontSize: 15, fontWeight: '600', color: '#0F172A' },
+  searchInput: { flex: 1, height: '100%', fontSize: 15, fontWeight: '600', color: '#0F172A' },
   content: { flex: 1, paddingHorizontal: 24, paddingTop: 32 },
   alertCard: { backgroundColor: '#FFF', borderRadius: 24, padding: 20, flexDirection: 'row', borderLeftWidth: 5, borderLeftColor: '#EF4444', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5, marginBottom: 32 },
   alertIconContainer: { width: 48, height: 48, backgroundColor: '#FEF2F2', borderRadius: 24, justifyContent: 'center', alignItems: 'center', marginRight: 16 },
@@ -134,8 +138,9 @@ const styles = StyleSheet.create({
   sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   sectionTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
   seeAll: { fontSize: 13, color: '#0EA5E9', fontWeight: '700' },
-  catScroll: { marginHorizontal: -24, paddingHorizontal: 24 },
-  catBtn: { alignItems: 'center', marginRight: 16 },
+  catWrapper: { height: 100 },
+  catContent: { gap: 16, alignItems: 'center' },
+  catBtn: { alignItems: 'center' },
   catIcon: { width: 64, height: 64, borderRadius: 20, justifyContent: 'center', alignItems: 'center', marginBottom: 8 },
   catEmoji: { fontSize: 24 },
   catLabel: { fontSize: 10, fontWeight: '800', color: '#94A3B8' },

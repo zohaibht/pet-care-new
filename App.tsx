@@ -1,6 +1,10 @@
 
-import React, { useState } from 'react';
-import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import React, { useState, useCallback, useMemo } from 'react';
+import { StatusBar } from 'expo-status-bar';
+import { View, SafeAreaView, StyleSheet, Dimensions } from './components/Native';
+import { Pet, Screen } from './types';
+
+// Screens
 import SplashScreen from './screens/SplashScreen';
 import LoginScreen from './screens/LoginScreen';
 import HomeDashboard from './screens/HomeDashboard';
@@ -11,12 +15,20 @@ import BreedExplorer from './screens/BreedExplorer';
 import BreedDetails from './screens/BreedDetails';
 import SymptomChecker from './screens/SymptomChecker';
 import DiagnosisScreen from './screens/DiagnosisScreen';
-import BottomNav from './components/BottomNav';
-import { View } from './components/Native';
-import { Pet } from './types';
 
-const App: React.FC = () => {
-  const [user, setUser] = useState<{ name: string; avatar: string } | null>(null);
+// Components
+import BottomNav from './components/BottomNav';
+
+const { width } = Dimensions.get('window');
+
+/**
+ * NATIVE-FIRST APP COMPONENT
+ * This version uses a custom state router instead of react-router-dom
+ * to ensure it runs flawlessly on Expo Snack (iOS, Android, and Web).
+ */
+export default function App() {
+  const [currentScreen, setCurrentScreen] = useState<Screen>(Screen.SPLASH);
+  const [screenParams, setScreenParams] = useState<any>(null);
   const [currentPet, setCurrentPet] = useState<Pet>({
     name: 'Max',
     type: 'Dog',
@@ -27,37 +39,78 @@ const App: React.FC = () => {
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD9S7paQ1xTCW-V7shP8Ce4ixIU4remZv9ACy2aM0-valnUR9aLhPme65i1o_3sfugnas8d6lS41skZDZYwRMJ4bpb6l4S0NAXoNlxqcEVB1kRZiR6gJpi_9hlG7fhK6aBlsP2CP1_Thyn-Xxq5RkbZtqwLvOJgNtd2MSk4VZcRO-6YlsEc3n3yXouiPekl-v2PHg68cQ5kb0DUrgNYhBGGUaXM827PBqpbKaD5PYSmQi0MyFdUgoq9CldmqcHAB3cNbYf8SZKPirsE'
   });
 
+  // Simple Native Router Implementation
+  const navigate = useCallback((screen: Screen, params?: any) => {
+    setCurrentScreen(screen);
+    if (params) setScreenParams(params);
+  }, []);
+
+  const goBack = useCallback(() => {
+    // Simple history management could be added here if needed
+    navigate(Screen.HOME);
+  }, [navigate]);
+
+  const renderScreen = useMemo(() => {
+    switch (currentScreen) {
+      case Screen.SPLASH:
+        return <SplashScreen onStart={() => navigate(Screen.LOGIN)} />;
+      case Screen.LOGIN:
+        return <LoginScreen onLogin={() => navigate(Screen.HOME)} onSkip={() => navigate(Screen.HOME)} />;
+      case Screen.HOME:
+        return <HomeDashboard pet={currentPet} onNavigate={navigate} />;
+      case Screen.DIET:
+        return <DietDashboard pet={currentPet} onBack={goBack} onCheckFood={() => navigate(Screen.FOOD_CHECKER)} />;
+      case Screen.FOOD_CHECKER:
+        return <FoodChecker onBack={goBack} />;
+      case Screen.PET_PROFILE:
+        return <PetProfile pet={currentPet} onSave={(p) => { setCurrentPet(p); navigate(Screen.HOME); }} onBack={goBack} />;
+      case Screen.BREED_EXPLORER:
+        return <BreedExplorer onSelectBreed={(id) => navigate(Screen.BREED_DETAILS, { id })} />;
+      case Screen.BREED_DETAILS:
+        return <BreedDetails breedId={screenParams?.id} onBack={() => navigate(Screen.BREED_EXPLORER)} />;
+      case Screen.SYMPTOM_CHECKER:
+        return <SymptomChecker pet={currentPet} onBack={goBack} onDiagnose={() => navigate(Screen.DIAGNOSIS)} />;
+      case Screen.DIAGNOSIS:
+        return <DiagnosisScreen onBack={() => navigate(Screen.SYMPTOM_CHECKER)} />;
+      default:
+        return <HomeDashboard pet={currentPet} onNavigate={navigate} />;
+    }
+  }, [currentScreen, currentPet, navigate, goBack, screenParams]);
+
+  const hideNav = [Screen.SPLASH, Screen.LOGIN, Screen.PET_PROFILE, Screen.DIAGNOSIS, Screen.BREED_DETAILS].includes(currentScreen);
+
   return (
-    <Router>
-      <View className="flex-1 bg-gray-100 dark:bg-gray-950 overflow-hidden">
-        <View className="w-full max-w-md bg-background-light dark:bg-background-dark min-h-full shadow-2xl relative self-center">
-          <Routes>
-            <Route path="/" element={<SplashScreen />} />
-            <Route path="/login" element={<LoginScreen onLogin={() => setUser({ name: 'Max', avatar: '' })} />} />
-            <Route path="/home" element={<HomeDashboard pet={currentPet} />} />
-            <Route path="/diet" element={<DietDashboard pet={currentPet} />} />
-            <Route path="/food-checker" element={<FoodChecker />} />
-            <Route path="/profile" element={<PetProfile pet={currentPet} onSave={setCurrentPet} />} />
-            <Route path="/breed-explorer" element={<BreedExplorer />} />
-            <Route path="/breed/:id" element={<BreedDetails />} />
-            <Route path="/health" element={<SymptomChecker pet={currentPet} />} />
-            <Route path="/diagnosis" element={<DiagnosisScreen />} />
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
-          <NavigationWrapper />
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="auto" />
+      <View style={styles.appWrapper}>
+        <View style={styles.screenContainer}>
+          {renderScreen}
         </View>
+        {!hideNav && (
+          <BottomNav 
+            currentScreen={currentScreen} 
+            onNavigate={navigate} 
+          />
+        )}
       </View>
-    </Router>
+    </SafeAreaView>
   );
-};
+}
 
-const NavigationWrapper: React.FC = () => {
-  const location = useLocation();
-  const hideNavOn = ['/', '/login', '/profile', '/diagnosis'];
-  const shouldHide = hideNavOn.some(path => location.pathname === path || location.pathname.startsWith('/breed/'));
-
-  if (shouldHide) return null;
-  return <BottomNav />;
-};
-
-export default App;
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F8FAFC',
+  },
+  appWrapper: {
+    flex: 1,
+    width: '100%',
+    maxWidth: width > 500 ? 450 : '100%',
+    alignSelf: 'center',
+    backgroundColor: '#FFFFFF',
+    position: 'relative',
+  },
+  screenContainer: {
+    flex: 1,
+  },
+});

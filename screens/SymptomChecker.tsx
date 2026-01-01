@@ -1,20 +1,19 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, MaterialIcon } from '../components/Native';
 import { Pet } from '../types';
 
 export interface SymptomCheckerProps {
   pet: Pet;
+  onBack: () => void;
+  onDiagnose: () => void;
 }
 
-const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
-  const navigate = useNavigate();
-
+const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet, onBack, onDiagnose }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigate('/home')} style={styles.navBtn}>
+        <TouchableOpacity onPress={onBack} style={styles.navBtn}>
           <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Symptom Checker</Text>
@@ -40,7 +39,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
             style={styles.bodyMap}
           />
           
-          <TouchableOpacity onPress={() => navigate('/diagnosis')} style={styles.hotspot}>
+          <TouchableOpacity onPress={onDiagnose} style={styles.hotspot}>
             <View style={styles.tooltip}><Text style={styles.tooltipText}>Torso & Stomach</Text></View>
             <View style={styles.ping} />
             <View style={styles.dot} />
@@ -56,7 +55,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
           </View>
           
           <View style={styles.list}>
-            <SymptomItem title="Vomiting" desc="Frequent or acute stomach upset" icon="sick" color="#FFF7ED" iconColor="#F97316" onClick={() => navigate('/diagnosis')} />
+            <SymptomItem title="Vomiting" desc="Frequent or acute stomach upset" icon="sick" color="#FFF7ED" iconColor="#F97316" onClick={onDiagnose} />
             <SymptomItem title="Itching & Scratching" desc="Skin irritation or parasites" icon="pest_control" color="#F0F9FF" iconColor="#0EA5E9" />
             <SymptomItem title="Limping" desc="Difficulty walking or joint pain" icon="pets" color="#FAF5FF" iconColor="#A855F7" />
           </View>
@@ -94,7 +93,7 @@ const SymptomItem = ({ title, desc, icon, color, iconColor, onClick }: any) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { paddingTop: 60, pb: 16, px: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16 },
+  header: { paddingTop: 60, paddingHorizontal: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16 },
   navBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
   headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
   content: { flex: 1, paddingHorizontal: 24 },
@@ -105,7 +104,7 @@ const styles = StyleSheet.create({
   targetName: { fontSize: 14, fontWeight: '800', color: '#0F172A' },
   bodyMapContainer: { height: 320, justifyContent: 'center', alignItems: 'center', marginBottom: 32, position: 'relative' },
   mapBg: { position: 'absolute', inset: 0, backgroundColor: '#F0F9FF', borderRadius: 48, opacity: 0.5 },
-  bodyMap: { height: 260, width: 200, objectFit: 'contain' },
+  bodyMap: { height: 260, width: 200 },
   hotspot: { position: 'absolute', top: 120, left: '50%', transform: [{ translateX: -40 }], alignItems: 'center' },
   tooltip: { backgroundColor: '#1E293B', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, marginBottom: 8 },
   tooltipText: { color: '#FFF', fontSize: 10, fontWeight: '800' },

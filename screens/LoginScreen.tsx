@@ -1,20 +1,13 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { View, Text, TouchableOpacity, Image, TextInput, StyleSheet, MaterialIcon } from '../components/Native';
 
 interface LoginScreenProps {
   onLogin: () => void;
+  onSkip: () => void;
 }
 
-const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
-  const navigate = useNavigate();
-
-  const handleLogin = () => {
-    onLogin();
-    navigate('/home');
-  };
-
+const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSkip }) => {
   return (
     <View style={styles.container}>
       <View style={styles.blurCircle} />
@@ -61,7 +54,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
           </View>
         </View>
 
-        <TouchableOpacity onPress={handleLogin} style={styles.loginBtn}>
+        <TouchableOpacity onPress={onLogin} style={styles.loginBtn}>
           <Text style={styles.loginText}>Log In</Text>
           <MaterialIcon name="arrow_forward" size={18} color="#FFF" />
         </TouchableOpacity>
@@ -81,7 +74,7 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin }) => {
 
       <View style={styles.footer}>
         <Text style={styles.footerText}>Don't have an account? <Text style={styles.signup}>Sign Up</Text></Text>
-        <TouchableOpacity onPress={() => navigate('/home')}>
+        <TouchableOpacity onPress={onSkip}>
           <Text style={styles.skip}>Skip for now</Text>
         </TouchableOpacity>
       </View>
@@ -111,7 +104,7 @@ const styles = StyleSheet.create({
   forgot: { fontSize: 12, fontWeight: '700', color: '#0EA5E9' },
   inputWrapper: { height: 60, backgroundColor: '#F8FAFC', borderRadius: 20, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16 },
   inputIcon: { marginRight: 12 },
-  input: { flex: 1, fontSize: 16, fontWeight: '600', color: '#0F172A' },
+  input: { flex: 1, height: '100%', fontSize: 16, fontWeight: '600', color: '#0F172A' },
   eyeIcon: { marginLeft: 12 },
   loginBtn: { height: 64, backgroundColor: '#0EA5E9', borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', shadowColor: '#0EA5E9', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.3, shadowRadius: 15 },
   loginText: { color: '#FFFFFF', fontSize: 18, fontWeight: '800', marginRight: 8 },

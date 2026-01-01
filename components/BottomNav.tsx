@@ -1,66 +1,126 @@
 
 import React from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { View, Text, TouchableOpacity } from './Native';
+import { View, Text, TouchableOpacity, StyleSheet, MaterialIcon } from './Native';
+import { Screen } from '../types';
 
-const BottomNav: React.FC = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
+interface BottomNavProps {
+  currentScreen: Screen;
+  onNavigate: (screen: Screen) => void;
+}
 
-  const isActive = (path: string) => location.pathname === path;
-
+const BottomNav: React.FC<BottomNavProps> = ({ currentScreen, onNavigate }) => {
   const navItems = [
-    { icon: 'home', label: 'Home', path: '/home' },
-    { icon: 'restaurant_menu', label: 'Diet', path: '/diet' },
-    { icon: 'healing', label: 'Health', path: '/health' },
-    { icon: 'person_outline', label: 'Profile', path: '/profile' },
+    { icon: 'home', label: 'Home', screen: Screen.HOME },
+    { icon: 'restaurant_menu', label: 'Diet', screen: Screen.DIET },
+    { icon: 'healing', label: 'Health', screen: Screen.SYMPTOM_CHECKER },
+    { icon: 'person_outline', label: 'Profile', screen: Screen.PET_PROFILE },
   ];
 
   return (
-    <View className="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/90 dark:bg-card-dark/95 backdrop-blur-xl border-t border-gray-100 dark:border-gray-800 px-6 pt-3 pb-safe flex-row justify-between items-center z-50 rounded-t-[2.5rem] shadow-[0_-10px_40px_-15px_rgba(0,0,0,0.1)]">
+    <View style={styles.container}>
       {navItems.slice(0, 2).map((item) => (
         <TouchableOpacity
-          key={item.path}
-          // Changed onClick to onPress to match the TouchableOpacity prop definition in Native.tsx
-          onPress={() => navigate(item.path)}
-          className="items-center gap-1 py-1 flex-1"
+          key={item.screen}
+          onPress={() => onNavigate(item.screen)}
+          style={styles.navBtn}
         >
-          <Text className={`material-icons-round text-2xl transition-all ${
-            isActive(item.path) ? 'text-primary scale-110' : 'text-gray-300'
-          }`}>{item.icon}</Text>
-          <Text className={`text-[9px] font-bold uppercase tracking-wider ${
-            isActive(item.path) ? 'text-primary' : 'text-gray-400'
-          }`}>{item.label}</Text>
+          <MaterialIcon 
+            name={item.icon} 
+            size={24} 
+            color={currentScreen === item.screen ? '#0EA5E9' : '#CBD5E1'} 
+          />
+          <Text style={[styles.label, currentScreen === item.screen && styles.labelActive]}>
+            {item.label}
+          </Text>
         </TouchableOpacity>
       ))}
 
-      <View className="relative -top-10 items-center justify-center flex-1">
+      <View style={styles.centerSpace}>
         <TouchableOpacity 
-          // Changed onClick to onPress to match the TouchableOpacity prop definition in Native.tsx
-          onPress={() => navigate('/home')}
-          className="w-16 h-16 rounded-full bg-primary items-center justify-center shadow-lg shadow-primary/40 border-4 border-white dark:border-card-dark"
+          onPress={() => onNavigate(Screen.HOME)}
+          style={styles.addBtn}
         >
-          <Text className="material-icons-round text-white text-3xl">add</Text>
+          <MaterialIcon name="add" size={32} color="#FFFFFF" />
         </TouchableOpacity>
       </View>
 
       {navItems.slice(2).map((item) => (
         <TouchableOpacity
-          key={item.path}
-          // Changed onClick to onPress to match the TouchableOpacity prop definition in Native.tsx
-          onPress={() => navigate(item.path)}
-          className="items-center gap-1 py-1 flex-1"
+          key={item.screen}
+          onPress={() => onNavigate(item.screen)}
+          style={styles.navBtn}
         >
-          <Text className={`material-icons-round text-2xl transition-all ${
-            isActive(item.path) ? 'text-primary scale-110' : 'text-gray-300'
-          }`}>{item.icon}</Text>
-          <Text className={`text-[9px] font-bold uppercase tracking-wider ${
-            isActive(item.path) ? 'text-primary' : 'text-gray-400'
-          }`}>{item.label}</Text>
+          <MaterialIcon 
+            name={item.icon} 
+            size={24} 
+            color={currentScreen === item.screen ? '#0EA5E9' : '#CBD5E1'} 
+          />
+          <Text style={[styles.label, currentScreen === item.screen && styles.labelActive]}>
+            {item.label}
+          </Text>
         </TouchableOpacity>
       ))}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 90,
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    borderTopWidth: 1,
+    borderTopColor: '#F1F5F9',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -10 },
+    shadowOpacity: 0.05,
+    shadowRadius: 20,
+    paddingBottom: 20,
+  },
+  navBtn: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 4,
+  },
+  label: {
+    fontSize: 10,
+    fontWeight: '700',
+    color: '#94A3B8',
+    textTransform: 'uppercase',
+  },
+  labelActive: {
+    color: '#0EA5E9',
+  },
+  centerSpace: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  addBtn: {
+    width: 60,
+    height: 60,
+    backgroundColor: '#0EA5E9',
+    borderRadius: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -40,
+    shadowColor: '#0EA5E9',
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 0.3,
+    shadowRadius: 15,
+    borderWidth: 4,
+    borderColor: '#FFFFFF',
+  },
+});
 
 export default BottomNav;

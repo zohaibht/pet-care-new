@@ -1,15 +1,16 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { View, Text, TouchableOpacity, ScrollView, StyleSheet, MaterialIcon } from '../components/Native';
 
-const DiagnosisScreen: React.FC = () => {
-  const navigate = useNavigate();
+interface DiagnosisScreenProps {
+  onBack: () => void;
+}
 
+const DiagnosisScreen: React.FC<DiagnosisScreenProps> = ({ onBack }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigate(-1)} style={styles.backBtn}>
+        <TouchableOpacity onPress={onBack} style={styles.backBtn}>
           <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Diagnosis & First Aid</Text>
@@ -110,7 +111,7 @@ const CareStep = ({ num, title, desc, isLast }: any) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { paddingTop: 60, pb: 16, px: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16 },
+  header: { paddingTop: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16, paddingHorizontal: 24 },
   backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
   headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
   content: { flex: 1, paddingHorizontal: 24 },

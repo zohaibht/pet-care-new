@@ -1,11 +1,12 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { View, Text, TouchableOpacity, ScrollView, Image, TextInput, StyleSheet, MaterialIcon } from '../components/Native';
 
-const BreedExplorer: React.FC = () => {
-  const navigate = useNavigate();
+interface BreedExplorerProps {
+  onSelectBreed: (id: string) => void;
+}
 
+const BreedExplorer: React.FC<BreedExplorerProps> = ({ onSelectBreed }) => {
   const breeds = [
     { id: 'golden-retriever', name: 'Golden Retriever', size: 'Large', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB5iy5Qp6eECNWsHEBG7kAsggYeoTbvh2LeV0D21JrtQmbp34oM5uSv7ZN2VciA6JyXymAClVqJ-70BCZ6PHRuSftJzb_T_mDDgZNIiXwbepQYh2g-oOMyGzAhOAVZ58D_8XZJVjh3VCKd7CVyRYJZPuY2YhDH5SOjnFpySYniT7KyL1hVq5BOkC1ecAVYE2JiIYu4jTvA4zls3tY0kALOL-80N-5_Dz5M4SMk7cZmiE8xAGQoKwO4XDU1so863uPQvWek_ZXJucKDf', desc: 'Friendly, intelligent, and devoted dogs. Great for families.', rating: 4.9, tag: 'Active' },
     { id: 'beagle', name: 'Beagle', size: 'Medium', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAkEeM1oWroxtusYtKMXZ65Dasxd1wdbnJOsuqUDj_4WAG5CRKnnUy6e1yaupLnoBJjtmH7MxCMuwyDM_9cBe9joVOrU54juTpnzr7NI_hqH9U91mBdIK3fTClxA0TZtZK_yAFWRUun_4VlD2Shz6HMCt0KDANiaxPNhDpvRuVGktXmEQW-HWXC7ptpOXB1A31OdL-SPI0hPqqghXcb_DCkb5VLUmmUrS126nF1QL3os7VkY9HLlYNB1mSnuwOPbyl0StgGQICMsg9j', desc: 'Curious, merry, and friendly. Known for their great sense of smell.', rating: 4.7, tag: 'Hunting' },
@@ -32,18 +33,20 @@ const BreedExplorer: React.FC = () => {
         </View>
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.filterScroll} contentContainerStyle={styles.filterContent}>
-        <TouchableOpacity style={[styles.tab, styles.tabActive]}><Text style={styles.tabTextActive}>All</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Small</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Medium</Text></TouchableOpacity>
-        <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Large</Text></TouchableOpacity>
-      </ScrollView>
+      <View style={styles.filterWrapper}>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.filterContent}>
+          <TouchableOpacity style={[styles.tab, styles.tabActive]}><Text style={styles.tabTextActive}>All</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Small</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Medium</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Large</Text></TouchableOpacity>
+        </ScrollView>
+      </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <Text style={styles.sectionTitle}>Popular Breeds</Text>
         <View style={styles.list}>
           {breeds.map(breed => (
-            <TouchableOpacity key={breed.id} onPress={() => navigate(`/breed/${breed.id}`)} style={styles.card}>
+            <TouchableOpacity key={breed.id} onPress={() => onSelectBreed(breed.id)} style={styles.card}>
               <View style={styles.cardImgWrapper}>
                 <Image source={{ uri: breed.image }} style={styles.cardImg} />
                 <View style={styles.favBadge}><MaterialIcon name="favorite" size={12} color="#EF4444" /></View>
@@ -70,7 +73,7 @@ const BreedExplorer: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { paddingTop: 60, px: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 24, marginBottom: 24 },
+  header: { paddingTop: 60, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 24, marginBottom: 24 },
   label: { fontSize: 13, fontWeight: '800', color: '#94A3B8' },
   title: { fontSize: 28, fontWeight: '900', color: '#0F172A' },
   profileBtn: { width: 44, height: 44, borderRadius: 22, overflow: 'hidden', borderWidth: 1, borderColor: '#E2E8F0' },
@@ -78,12 +81,12 @@ const styles = StyleSheet.create({
   searchContainer: { paddingHorizontal: 24, marginBottom: 24 },
   searchBox: { height: 60, backgroundColor: '#FFF', borderRadius: 20, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10 },
   searchIcon: { marginRight: 12 },
-  searchInput: { flex: 1, fontSize: 15, fontWeight: '700', color: '#0F172A' },
+  searchInput: { flex: 1, height: '100%', fontSize: 15, fontWeight: '700', color: '#0F172A' },
   filterBtn: { padding: 6, backgroundColor: '#F0F9FF', borderRadius: 10 },
-  filterScroll: { maxHeight: 50, marginBottom: 24 },
-  filterContent: { paddingHorizontal: 24, gap: 12 },
-  tab: { paddingHorizontal: 24, height: 44, backgroundColor: '#FFF', borderRadius: 16, justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
-  tabActive: { backgroundColor: '#0EA5E9', shadowColor: '#0EA5E9', shadowOpacity: 0.3 },
+  filterWrapper: { height: 50, marginBottom: 24 },
+  filterContent: { paddingHorizontal: 24, gap: 12, alignItems: 'center' },
+  tab: { paddingHorizontal: 24, height: 40, backgroundColor: '#FFF', borderRadius: 16, justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  tabActive: { backgroundColor: '#0EA5E9' },
   tabText: { fontSize: 14, fontWeight: '800', color: '#94A3B8' },
   tabTextActive: { color: '#FFF' },
   content: { flex: 1, paddingHorizontal: 24 },

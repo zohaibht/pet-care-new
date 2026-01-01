@@ -1,6 +1,5 @@
 
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
 import { 
   View, 
   Text, 
@@ -8,23 +7,24 @@ import {
   ScrollView, 
   Image, 
   StyleSheet, 
-  SafeAreaView 
+  SafeAreaView,
+  MaterialIcon
 } from '../components/Native';
 import { Pet } from '../types';
 
 export interface DietDashboardProps {
   pet: Pet;
+  onBack: () => void;
+  onCheckFood: () => void;
 }
 
-const DietDashboard: React.FC<DietDashboardProps> = ({ pet }) => {
-  const navigate = useNavigate();
-
+const DietDashboard: React.FC<DietDashboardProps> = ({ pet, onBack, onCheckFood }) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <TouchableOpacity onPress={() => navigate('/home')} style={styles.backButton}>
-            <Text className="material-icons-round" style={styles.backIcon}>arrow_back</Text>
+          <TouchableOpacity onPress={onBack} style={styles.backButton}>
+            <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
           </TouchableOpacity>
           <View>
             <Text style={styles.headerTitle}>Diet Dashboard</Text>
@@ -47,24 +47,24 @@ const DietDashboard: React.FC<DietDashboardProps> = ({ pet }) => {
           </View>
           <View style={styles.waterTracker}>
             <View style={styles.waterLabelRow}>
-              <Text className="material-icons-round" style={styles.waterIcon}>water_drop</Text>
+              <MaterialIcon name="water_drop" color="#FFFFFF" size={18} style={styles.waterIcon} />
               <Text style={styles.waterLabel}>Water Intake</Text>
             </View>
             <Text style={styles.waterValue}>650ml <Text style={styles.waterMax}>/ 800ml</Text></Text>
           </View>
         </View>
 
-        <TouchableOpacity onPress={() => navigate('/food-checker')} style={styles.safeFoodButton}>
+        <TouchableOpacity onPress={onCheckFood} style={styles.safeFoodButton}>
           <View style={styles.safeFoodLeft}>
             <View style={styles.safeFoodIconContainer}>
-              <Text className="material-icons-round" style={styles.safeFoodIcon}>verified_user</Text>
+              <MaterialIcon name="verified_user" size={24} color="#16A34A" />
             </View>
             <View>
               <Text style={styles.safeFoodTitle}>Check Safe Foods</Text>
               <Text style={styles.safeFoodDesc}>Verify before feeding your pet</Text>
             </View>
           </View>
-          <Text className="material-icons-round" style={styles.chevron}>chevron_right</Text>
+          <MaterialIcon name="chevron_right" size={24} color="#E2E8F0" />
         </TouchableOpacity>
 
         <View style={styles.mealSection}>
@@ -87,7 +87,7 @@ const MealItem = ({ title, time, type, weight, kcal, completed, faded, active, i
   <View style={[styles.mealItem, faded && { opacity: 0.5 }]}>
     <View style={styles.mealImageContainer}>
       <Image source={{ uri: image }} style={styles.mealImage} />
-      {completed && <View style={styles.completedOverlay}><Text className="material-icons-round" style={styles.checkIcon}>done</Text></View>}
+      {completed && <View style={styles.completedOverlay}><MaterialIcon name="done" size={20} color="#FFFFFF" /></View>}
     </View>
     <View style={styles.mealInfo}>
       <View style={styles.mealRow}>
@@ -101,7 +101,7 @@ const MealItem = ({ title, time, type, weight, kcal, completed, faded, active, i
       </View>
     </View>
     <View style={styles.mealAction}>
-      {completed ? <Text className="material-icons-round" style={styles.doneIcon}>check_circle</Text> : <TouchableOpacity style={styles.playButton}><Text className="material-icons-round" style={styles.playIcon}>play_arrow</Text></TouchableOpacity>}
+      {completed ? <MaterialIcon name="check_circle" color="#0EA5E9" size={24} /> : <TouchableOpacity style={styles.playButton}><MaterialIcon name="play_arrow" color="#E2E8F0" size={20} /></TouchableOpacity>}
     </View>
   </View>
 );
@@ -111,7 +111,6 @@ const styles = StyleSheet.create({
   header: { paddingHorizontal: 24, paddingTop: 10, paddingBottom: 20, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   headerLeft: { flexDirection: 'row', alignItems: 'center' },
   backButton: { width: 44, height: 44, backgroundColor: '#FFFFFF', borderRadius: 14, justifyContent: 'center', alignItems: 'center', marginRight: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.05, shadowRadius: 5 },
-  backIcon: { fontSize: 24, color: '#0F172A' },
   headerTitle: { fontSize: 20, fontWeight: '800', color: '#0F172A' },
   headerSubtitle: { fontSize: 12, color: '#94A3B8', fontWeight: '600' },
   profilePic: { width: 44, height: 44, borderRadius: 22, borderWidth: 2, borderColor: '#0EA5E9' },
@@ -125,17 +124,15 @@ const styles = StyleSheet.create({
   progressText: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
   waterTracker: { backgroundColor: 'rgba(255, 255, 255, 0.15)', borderRadius: 20, padding: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   waterLabelRow: { flexDirection: 'row', alignItems: 'center' },
-  waterIcon: { color: '#FFFFFF', fontSize: 18, marginRight: 8 },
+  waterIcon: { marginRight: 8 },
   waterLabel: { color: '#FFFFFF', fontSize: 13, fontWeight: '700' },
   waterValue: { color: '#FFFFFF', fontSize: 14, fontWeight: '800' },
   waterMax: { color: 'rgba(255, 255, 255, 0.6)', fontWeight: '600' },
   safeFoodButton: { backgroundColor: '#FFFFFF', borderRadius: 24, padding: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth: 1, borderColor: '#F1F5F9', marginBottom: 32 },
   safeFoodLeft: { flexDirection: 'row', alignItems: 'center' },
   safeFoodIconContainer: { width: 48, height: 48, backgroundColor: '#DCFCE7', borderRadius: 24, justifyContent: 'center', alignItems: 'center', marginRight: 16 },
-  safeFoodIcon: { color: '#16A34A', fontSize: 24 },
   safeFoodTitle: { fontSize: 16, fontWeight: '800', color: '#0F172A' },
   safeFoodDesc: { fontSize: 11, color: '#94A3B8', fontWeight: '600' },
-  chevron: { color: '#E2E8F0', fontSize: 24 },
   mealSection: { marginBottom: 40 },
   mealHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   sectionTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
@@ -144,7 +141,6 @@ const styles = StyleSheet.create({
   mealImageContainer: { width: 64, height: 64, borderRadius: 16, overflow: 'hidden', backgroundColor: '#F1F5F9' },
   mealImage: { width: '100%', height: '100%' },
   completedOverlay: { position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.3)', justifyContent: 'center', alignItems: 'center' },
-  checkIcon: { color: '#FFFFFF', fontSize: 20 },
   mealInfo: { flex: 1, marginLeft: 16 },
   mealRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 2 },
   mealType: { fontSize: 9, fontWeight: '800', textTransform: 'uppercase', letterSpacing: 0.5 },
@@ -153,9 +149,7 @@ const styles = StyleSheet.create({
   mealStats: { flexDirection: 'row', gap: 12 },
   mealStatText: { fontSize: 10, color: '#94A3B8', fontWeight: '700' },
   mealAction: { marginLeft: 8 },
-  doneIcon: { color: '#0EA5E9', fontSize: 24 },
   playButton: { width: 32, height: 32, borderRadius: 16, borderWidth: 1, borderColor: '#F1F5F9', justifyContent: 'center', alignItems: 'center' },
-  playIcon: { color: '#E2E8F0', fontSize: 20 },
 });
 
 export default DietDashboard;
