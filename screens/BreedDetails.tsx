@@ -1,111 +1,164 @@
 
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, MaterialIcon, Dimensions } from '../components/Native';
+
+const { width } = Dimensions.get('window');
 
 const BreedDetails: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
   return (
-    <div className="flex-1 bg-white dark:bg-card-dark">
-      <div className="relative h-96 w-full">
-        <img 
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuAh5Wu5uPsCFqv9GrAqqjlrmZStvQUCvy1Xij0a2MwQSLgLwhsPWLaOdVNR83ULIE-jtbJUVZuCTzh-hcvubR40BNToxuIbhaMLi22MkrqprAARf4DpAxOrSUuoLrczGxn72oXoxPdMGR_h10NXVqBfhTTkeGQzv7Q7BR_q1O83vYTyUix3u9ZQfVs2zS1WRDLr0mLcqojLtabBhgoW7lPY1BF4r1xWXRi7slbLRl8LFXcyvdqsIS10vSRUQOKhndplQ1QkpGvdR2-C" 
-          alt="Golden Retriever" 
-          className="w-full h-full object-cover" 
+    <View style={styles.container}>
+      <View style={styles.heroContainer}>
+        <Image 
+          source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAh5Wu5uPsCFqv9GrAqqjlrmZStvQUCvy1Xij0a2MwQSLgLwhsPWLaOdVNR83ULIE-jtbJUVZuCTzh-hcvubR40BNToxuIbhaMLi22MkrqprAARf4DpAxOrSUuoLrczGxn72oXoxPdMGR_h10NXVqBfhTTkeGQzv7Q7BR_q1O83vYTyUix3u9ZQfVs2zS1WRDLr0mLcqojLtabBhgoW7lPY1BF4r1xWXRi7slbLRl8LFXcyvdqsIS10vSRUQOKhndplQ1QkpGvdR2-C' }} 
+          style={styles.heroImg}
         />
-        <div className="absolute top-0 left-0 right-0 p-6 pt-12 flex justify-between items-center z-10 bg-gradient-to-b from-black/50 to-transparent">
-          <button onClick={() => navigate(-1)} className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white">
-            <span className="material-icons-round">arrow_back</span>
-          </button>
-          <div className="flex gap-3">
-            <button className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white"><span className="material-icons-round">share</span></button>
-            <button className="bg-white/20 backdrop-blur-md p-2 rounded-full text-rose-400"><span className="material-icons-round">favorite</span></button>
-          </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 h-10 bg-white dark:bg-background-dark rounded-t-[2.5rem] z-10"></div>
-      </div>
+        <View style={styles.topNav}>
+          <TouchableOpacity onPress={() => navigate(-1)} style={styles.navBtn}>
+            <MaterialIcon name="arrow_back" size={24} color="#FFF" />
+          </TouchableOpacity>
+          <View style={styles.navRight}>
+            <TouchableOpacity style={styles.navBtn}><MaterialIcon name="share" size={24} color="#FFF" /></TouchableOpacity>
+            <TouchableOpacity style={styles.navBtn}><MaterialIcon name="favorite" size={24} color="#FB7185" /></TouchableOpacity>
+          </View>
+        </View>
+        <View style={styles.roundedTop} />
+      </View>
 
-      <div className="px-6 pb-32 -mt-6 relative z-20 bg-white dark:bg-background-dark">
-        <div className="flex justify-between items-end mb-6">
-          <div>
-            <div className="flex gap-2 mb-1">
-              <span className="bg-primary/10 text-primary px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest">Dog</span>
-              <span className="flex items-center text-yellow-500 text-[10px] font-bold">
-                <span className="material-icons-round text-sm mr-1">star</span> 4.9 (240 reviews)
-              </span>
-            </div>
-            <h1 className="text-3xl font-extrabold dark:text-white">Golden Retriever</h1>
-            <p className="text-sm text-gray-500 mt-1">Friendly • Intelligent • Devoted</p>
-          </div>
-          <div className="text-right">
-            <div className="text-primary font-bold text-2xl">$1200</div>
-            <div className="text-[10px] text-gray-400 font-bold">avg. price</div>
-          </div>
-        </div>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.mainInfo}>
+          <View style={styles.infoLeft}>
+            <View style={styles.tagRow}>
+              <View style={styles.typeTag}><Text style={styles.typeTagText}>DOG</Text></View>
+              <View style={styles.ratingRow}>
+                <MaterialIcon name="star" size={14} color="#FBBF24" />
+                <Text style={styles.ratingText}>4.9 (240 reviews)</Text>
+              </View>
+            </View>
+            <Text style={styles.breedTitle}>Golden Retriever</Text>
+            <Text style={styles.traits}>Friendly • Intelligent • Devoted</Text>
+          </View>
+          <View style={styles.infoRight}>
+            <Text style={styles.price}>$1200</Text>
+            <Text style={styles.priceLabel}>avg. price</Text>
+          </View>
+        </View>
 
-        <div className="flex border-b border-gray-100 dark:border-gray-800 mb-6">
-          <button className="flex-1 pb-3 text-primary font-bold border-b-2 border-primary text-sm">Overview</button>
-          <button className="flex-1 pb-3 text-gray-400 font-bold text-sm">Traits</button>
-          <button className="flex-1 pb-3 text-gray-400 font-bold text-sm">History</button>
-        </div>
+        <View style={styles.tabs}>
+          <TouchableOpacity style={[styles.tab, styles.tabActive]}><Text style={styles.tabTextActive}>Overview</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>Traits</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.tab}><Text style={styles.tabText}>History</Text></TouchableOpacity>
+        </View>
 
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <StatBox icon="pets" label="Size" value="Large" color="bg-orange-100 text-orange-500" />
-          <StatBox icon="hourglass_top" label="Lifespan" value="10-12 yrs" color="bg-blue-100 text-blue-500" />
-          <StatBox icon="sprint" label="Energy" value="High" color="bg-green-100 text-green-500" />
-          <StatBox icon="school" label="Training" value="Easy" color="bg-purple-100 text-purple-500" />
-        </div>
+        <View style={styles.statsGrid}>
+          <StatBox icon="pets" label="Size" value="Large" color="#FFF7ED" iconColor="#F97316" />
+          <StatBox icon="hourglass_top" label="Lifespan" value="10-12 yrs" color="#EFF6FF" iconColor="#3B82F6" />
+          <StatBox icon="sprint" label="Energy" value="High" color="#F0FDF4" iconColor="#22C55E" />
+          <StatBox icon="school" label="Training" value="Easy" color="#FAF5FF" iconColor="#A855F7" />
+        </View>
 
-        <div className="bg-gray-50 dark:bg-card-dark p-5 rounded-3xl mb-8">
-          <h3 className="font-bold text-lg mb-4 dark:text-white">Characteristics</h3>
-          <div className="space-y-4">
-            <ProgressBar label="Friendliness" value={5} />
-            <ProgressBar label="Shedding Level" value={4} />
-            <ProgressBar label="Watchdog Ability" value={2} />
-          </div>
-        </div>
+        <View style={styles.charSection}>
+          <Text style={styles.secTitle}>Characteristics</Text>
+          <View style={styles.barGroup}>
+            <CharBar label="Friendliness" value={5} />
+            <CharBar label="Shedding Level" value={4} />
+            <CharBar label="Watchdog Ability" value={2} />
+          </View>
+        </View>
 
-        <h3 className="font-bold text-lg mb-2 dark:text-white">About Golden Retriever</h3>
-        <p className="text-sm text-gray-500 leading-relaxed mb-10">
-          The Golden Retriever is a Scottish breed of retriever dog of medium size. It is characterized by a gentle and affectionate nature and a striking golden coat. <span className="text-primary font-bold">Read more</span>
-        </p>
+        <Text style={styles.secTitle}>About Golden Retriever</Text>
+        <Text style={styles.desc}>
+          The Golden Retriever is a Scottish breed of retriever dog of medium size. It is characterized by a gentle and affectionate nature and a striking golden coat. <Text style={styles.readMore}>Read more</Text>
+        </Text>
+        <View style={{ height: 160 }} />
+      </ScrollView>
 
-        <div className="fixed bottom-0 left-0 right-0 max-w-md mx-auto p-6 bg-white/80 dark:bg-background-dark/80 backdrop-blur-lg border-t border-gray-50 dark:border-gray-800 z-50 rounded-t-3xl">
-          <button className="w-full bg-primary text-white font-bold py-4 rounded-2xl shadow-glow flex items-center justify-center gap-2">
-            <span className="material-icons-round">search</span>
-            Find Golden Retrievers Nearby
-          </button>
-        </div>
-      </div>
-    </div>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.actionBtn}>
+          <MaterialIcon name="search" size={20} color="#FFF" />
+          <Text style={styles.actionBtnText}>Find Breeders Nearby</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
-const StatBox: React.FC<{ icon: string; label: string; value: string; color: string }> = ({ icon, label, value, color }) => (
-  <div className="bg-white dark:bg-card-dark p-4 rounded-2xl shadow-sm border border-gray-50 dark:border-gray-800 flex items-center gap-3">
-    <div className={`p-2 rounded-xl ${color}`}>
-      <span className="material-icons-round">{icon}</span>
-    </div>
-    <div>
-      <p className="text-[10px] text-gray-400 font-bold">{label}</p>
-      <p className="font-bold text-sm dark:text-white">{value}</p>
-    </div>
-  </div>
+const StatBox = ({ icon, label, value, color, iconColor }: any) => (
+  <View style={styles.statBox}>
+    <View style={[styles.statIcon, { backgroundColor: color }]}>
+      {/* Fix: iconColor changed to color to match MaterialIcon prop expectations */}
+      <MaterialIcon name={icon} size={20} color={iconColor} />
+    </View>
+    <View>
+      <Text style={styles.statLabel}>{label}</Text>
+      <Text style={styles.statValue}>{value}</Text>
+    </View>
+  </View>
 );
 
-const ProgressBar: React.FC<{ label: string; value: number }> = ({ label, value }) => (
-  <div>
-    <div className="flex justify-between items-center mb-1 text-[10px] font-bold">
-      <span className="text-gray-500">{label}</span>
-      <span className="text-primary">{value}/5</span>
-    </div>
-    <div className="flex gap-1.5">
+const CharBar = ({ label, value }: any) => (
+  <View style={styles.barContainer}>
+    <View style={styles.barLabelRow}>
+      <Text style={styles.barLabel}>{label}</Text>
+      <Text style={styles.barValue}>{value}/5</Text>
+    </View>
+    <View style={styles.barTrack}>
       {[1, 2, 3, 4, 5].map(i => (
-        <div key={i} className={`h-1.5 flex-1 rounded-full ${i <= value ? 'bg-primary' : 'bg-gray-200 dark:bg-gray-700'}`}></div>
+        <View key={i} style={[styles.barSegment, i <= value && styles.barActive]} />
       ))}
-    </div>
-  </div>
+    </View>
+  </View>
 );
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#FFF' },
+  heroContainer: { height: 400, position: 'relative' },
+  heroImg: { width: '100%', height: '100%' },
+  topNav: { position: 'absolute', top: 60, left: 24, right: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  navBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(255, 255, 255, 0.2)', justifyContent: 'center', alignItems: 'center' },
+  navRight: { flexDirection: 'row', gap: 12 },
+  roundedTop: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 40, backgroundColor: '#FFF', borderTopLeftRadius: 40, borderTopRightRadius: 40 },
+  content: { flex: 1, paddingHorizontal: 24, backgroundColor: '#FFF', marginTop: -20 },
+  mainInfo: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 32 },
+  infoLeft: { flex: 1 },
+  tagRow: { flexDirection: 'row', gap: 12, marginBottom: 8 },
+  typeTag: { backgroundColor: '#F0F9FF', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 10 },
+  typeTagText: { fontSize: 9, fontWeight: '900', color: '#0EA5E9' },
+  ratingRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  ratingText: { fontSize: 10, fontWeight: '800', color: '#FBBF24' },
+  breedTitle: { fontSize: 32, fontWeight: '900', color: '#0F172A' },
+  traits: { fontSize: 14, color: '#64748B', marginTop: 4 },
+  infoRight: { alignItems: 'flex-end' },
+  price: { fontSize: 24, fontWeight: '900', color: '#0EA5E9' },
+  priceLabel: { fontSize: 10, color: '#94A3B8', fontWeight: '800' },
+  tabs: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#F1F5F9', marginBottom: 32 },
+  tab: { flex: 1, paddingBottom: 16, alignItems: 'center' },
+  tabActive: { borderBottomWidth: 2, borderBottomColor: '#0EA5E9' },
+  tabText: { fontSize: 14, fontWeight: '800', color: '#94A3B8' },
+  tabTextActive: { color: '#0EA5E9' },
+  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16, marginBottom: 32 },
+  statBox: { width: (width - 64) / 2, backgroundColor: '#F8FAFC', borderRadius: 20, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  statIcon: { width: 40, height: 40, borderRadius: 12, justifyContent: 'center', alignItems: 'center' },
+  statLabel: { fontSize: 10, fontWeight: '800', color: '#94A3B8' },
+  statValue: { fontSize: 14, fontWeight: '800', color: '#0F172A' },
+  charSection: { backgroundColor: '#F8FAFC', borderRadius: 32, padding: 24, marginBottom: 32 },
+  secTitle: { fontSize: 18, fontWeight: '900', color: '#0F172A', marginBottom: 16 },
+  barGroup: { gap: 16 },
+  barContainer: { gap: 8 },
+  barLabelRow: { flexDirection: 'row', justifyContent: 'space-between' },
+  barLabel: { fontSize: 11, fontWeight: '800', color: '#64748B' },
+  barValue: { fontSize: 11, fontWeight: '900', color: '#0EA5E9' },
+  barTrack: { flexDirection: 'row', gap: 6, height: 6 },
+  barSegment: { flex: 1, backgroundColor: '#E2E8F0', borderRadius: 3 },
+  barActive: { backgroundColor: '#0EA5E9' },
+  desc: { fontSize: 14, color: '#64748B', lineHeight: 22 },
+  readMore: { color: '#0EA5E9', fontWeight: '800' },
+  footer: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 24, backgroundColor: 'rgba(255, 255, 255, 0.95)', borderTopWidth: 1, borderTopColor: '#F1F5F9' },
+  actionBtn: { height: 64, backgroundColor: '#0EA5E9', borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12, shadowColor: '#0EA5E9', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.3, shadowRadius: 20 },
+  actionBtnText: { color: '#FFF', fontSize: 16, fontWeight: '800' },
+});
 
 export default BreedDetails;

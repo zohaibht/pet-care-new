@@ -1,108 +1,153 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { View, Text, TouchableOpacity, ScrollView, TextInput, StyleSheet, MaterialIcon } from '../components/Native';
 
 const FoodChecker: React.FC = () => {
   const navigate = useNavigate();
   const [search, setSearch] = useState('Grapes');
 
   const categories = [
-    { label: 'Fruits', emoji: '🍎', color: 'bg-orange-100' },
-    { label: 'Veggies', emoji: '🥕', color: 'bg-green-100' },
-    { label: 'Meat', emoji: '🥩', color: 'bg-red-100' },
-    { label: 'Dairy', emoji: '🧀', color: 'bg-blue-100' },
-    { label: 'Grains', emoji: '🌾', color: 'bg-yellow-100' },
+    { label: 'Fruits', emoji: '🍎', color: '#FFF7ED' },
+    { label: 'Veggies', emoji: '🥕', color: '#F0FDF4' },
+    { label: 'Meat', emoji: '🥩', color: '#FEF2F2' },
+    { label: 'Dairy', emoji: '🧀', color: '#EFF6FF' },
+    { label: 'Grains', emoji: '🌾', color: '#FEFCE8' },
   ];
 
   return (
-    <div className="flex-1 pb-32 overflow-y-auto no-scrollbar">
-      <div className="bg-primary pt-14 pb-10 px-6 rounded-b-[3rem] shadow-lg relative z-10">
-        <div className="flex justify-between items-center mb-6">
-          <div className="flex items-center gap-4">
-            <button onClick={() => navigate(-1)} className="p-2 bg-white/20 text-white rounded-full">
-              <span className="material-icons-round">arrow_back</span>
-            </button>
-            <div>
-              <h1 className="text-white text-2xl font-bold">Food Checker</h1>
-              <p className="text-sky-100 text-sm">Keep your furry friend safe</p>
-            </div>
-          </div>
-          <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center border border-white/30">
-            <span className="material-icons-round text-white">notifications</span>
-          </div>
-        </div>
-        <div className="relative">
-          <span className="material-icons-round absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">search</span>
-          <input 
-            type="text" 
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <View style={styles.headerTop}>
+          <View style={styles.headerLeft}>
+            <TouchableOpacity onPress={() => navigate(-1)} style={styles.backBtn}>
+              <MaterialIcon name="arrow_back" color="#FFF" size={24} />
+            </TouchableOpacity>
+            <View>
+              <Text style={styles.title}>Food Checker</Text>
+              <Text style={styles.subtitle}>Keep your furry friend safe</Text>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.notifBtn}>
+            <MaterialIcon name="notifications" color="#FFF" size={20} />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.searchBox}>
+          <MaterialIcon name="search" size={20} color="#94A3B8" style={styles.searchIcon} />
+          <TextInput 
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full pl-12 pr-12 py-4 bg-white border-none rounded-2xl shadow-soft"
+            onChangeText={setSearch}
             placeholder="Search food..."
+            style={styles.searchInput}
           />
-          <span className="material-icons-round absolute right-4 top-1/2 -translate-y-1/2 text-gray-300">filter_list</span>
-        </div>
-      </div>
+          <MaterialIcon name="filter_list" size={20} color="#CBD5E1" />
+        </View>
+      </View>
 
-      <div className="px-6 -mt-6 relative z-20 mb-8">
-        <div className="bg-white dark:bg-card-dark rounded-2xl shadow-xl p-5 border-l-4 border-toxic flex gap-4">
-          <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center shrink-0">
-            <span className="material-icons-round text-toxic text-2xl">gpp_bad</span>
-          </div>
-          <div className="flex-1">
-            <div className="flex justify-between">
-              <h3 className="text-lg font-bold dark:text-white">Grapes</h3>
-              <span className="bg-toxic text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase">Toxic</span>
-            </div>
-            <p className="text-xs text-gray-500 mt-1 leading-relaxed">
-              <span className="text-toxic font-bold">❌ EXTREMELY TOXIC!</span> Can cause sudden kidney failure. Even a small amount can be fatal.
-            </p>
-          </div>
-        </div>
-      </div>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.alertCard}>
+          <View style={styles.alertIconContainer}>
+            <MaterialIcon name="gpp_bad" size={24} color="#EF4444" />
+          </View>
+          <View style={styles.alertBody}>
+            <View style={styles.alertHeader}>
+              <Text style={styles.alertTitle}>Grapes</Text>
+              <View style={styles.toxicTag}><Text style={styles.toxicTagText}>TOXIC</Text></View>
+            </View>
+            <Text style={styles.alertDesc}>
+              <Text style={styles.toxicBold}>❌ EXTREMELY TOXIC!</Text> Can cause sudden kidney failure. Even a small amount can be fatal.
+            </Text>
+          </View>
+        </View>
 
-      <div className="px-6 mb-8">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold dark:text-white">Categories</h2>
-          <button className="text-primary text-sm font-bold">See All</button>
-        </div>
-        <div className="flex gap-4 overflow-x-auto no-scrollbar pb-2">
-          {categories.map((cat, i) => (
-            <button key={i} className="flex flex-col items-center gap-2 group">
-              <div className={`w-16 h-16 rounded-2xl ${cat.color} flex items-center justify-center border-2 border-transparent group-hover:border-primary transition-all shadow-sm`}>
-                <span className="text-2xl">{cat.emoji}</span>
-              </div>
-              <span className="text-[10px] font-bold text-gray-500">{cat.label}</span>
-            </button>
-          ))}
-        </div>
-      </div>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Categories</Text>
+            <TouchableOpacity><Text style={styles.seeAll}>See All</Text></TouchableOpacity>
+          </View>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.catScroll}>
+            {categories.map((cat, i) => (
+              <TouchableOpacity key={i} style={styles.catBtn}>
+                <View style={[styles.catIcon, { backgroundColor: cat.color }]}>
+                  <Text style={styles.catEmoji}>{cat.emoji}</Text>
+                </View>
+                <Text style={styles.catLabel}>{cat.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
 
-      <div className="px-6">
-        <h2 className="text-lg font-bold mb-4 dark:text-white">Common Foods</h2>
-        <div className="space-y-3">
-          <FoodListItem name="Bananas" desc="Safe in moderation. High sugar." status="SAFE" emoji="🍌" isSafe={true} />
-          <FoodListItem name="Chocolate" desc="Contains theobromine. Deadly." status="TOXIC" emoji="🍫" isSafe={false} />
-          <FoodListItem name="Peanut Butter" desc="Xylitol-free only. Good treat." status="SAFE" emoji="🥜" isSafe={true} />
-          <FoodListItem name="Onions" desc="Damages red blood cells." status="TOXIC" emoji="🧅" isSafe={false} />
-        </div>
-      </div>
-    </div>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Common Foods</Text>
+          <View style={styles.foodList}>
+            <FoodListItem name="Bananas" desc="Safe in moderation. High sugar." status="SAFE" emoji="🍌" isSafe />
+            <FoodListItem name="Chocolate" desc="Contains theobromine. Deadly." status="TOXIC" emoji="🍫" isSafe={false} />
+            <FoodListItem name="Peanut Butter" desc="Xylitol-free only. Good treat." status="SAFE" emoji="🥜" isSafe />
+            <FoodListItem name="Onions" desc="Damages red blood cells." status="TOXIC" emoji="🧅" isSafe={false} />
+          </View>
+        </View>
+        
+        <View style={{ height: 120 }} />
+      </ScrollView>
+    </View>
   );
 };
 
-const FoodListItem: React.FC<{ name: string; desc: string; status: string; emoji: string; isSafe: boolean }> = ({ name, desc, status, emoji, isSafe }) => (
-  <div className="bg-white dark:bg-card-dark rounded-2xl p-4 shadow-sm border border-gray-50 dark:border-gray-800 flex items-center gap-4">
-    <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-gray-800 flex items-center justify-center text-2xl">{emoji}</div>
-    <div className="flex-1">
-      <h4 className="font-bold text-sm dark:text-white">{name}</h4>
-      <p className="text-[10px] text-gray-400">{desc}</p>
-    </div>
-    <div className={`px-2 py-1 rounded-lg flex items-center gap-1 ${isSafe ? 'bg-green-100 text-green-600' : 'bg-red-100 text-red-600'}`}>
-      <span className="material-icons-round text-[14px]">{isSafe ? 'check_circle' : 'warning'}</span>
-      <span className="text-[10px] font-bold">{status}</span>
-    </div>
-  </div>
+const FoodListItem = ({ name, desc, status, emoji, isSafe }: any) => (
+  <View style={styles.foodItem}>
+    <View style={styles.foodEmojiContainer}><Text style={styles.foodEmoji}>{emoji}</Text></View>
+    <View style={styles.foodInfo}>
+      <Text style={styles.foodName}>{name}</Text>
+      <Text style={styles.foodDesc}>{desc}</Text>
+    </View>
+    <View style={[styles.statusBadge, { backgroundColor: isSafe ? '#DCFCE7' : '#FEE2E2' }]}>
+      <MaterialIcon name={isSafe ? 'check_circle' : 'warning'} size={14} color={isSafe ? '#16A34A' : '#EF4444'} />
+      <Text style={[styles.statusText, { color: isSafe ? '#16A34A' : '#EF4444' }]}>{status}</Text>
+    </View>
+  </View>
 );
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  header: { backgroundColor: '#0EA5E9', paddingTop: 60, pb: 40, px: 24, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, paddingBottom: 40 },
+  headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 },
+  headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 16 },
+  backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(255, 255, 255, 0.2)', justifyContent: 'center', alignItems: 'center' },
+  title: { fontSize: 24, fontWeight: '800', color: '#FFF' },
+  subtitle: { fontSize: 13, color: '#E0F2FE' },
+  notifBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(255, 255, 255, 0.2)', justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)' },
+  searchBox: { height: 60, backgroundColor: '#FFF', borderRadius: 20, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.1, shadowRadius: 10 },
+  searchIcon: { marginRight: 12 },
+  searchInput: { flex: 1, fontSize: 15, fontWeight: '600', color: '#0F172A' },
+  content: { flex: 1, paddingHorizontal: 24, paddingTop: 32 },
+  alertCard: { backgroundColor: '#FFF', borderRadius: 24, padding: 20, flexDirection: 'row', borderLeftWidth: 5, borderLeftColor: '#EF4444', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5, marginBottom: 32 },
+  alertIconContainer: { width: 48, height: 48, backgroundColor: '#FEF2F2', borderRadius: 24, justifyContent: 'center', alignItems: 'center', marginRight: 16 },
+  alertBody: { flex: 1 },
+  alertHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  alertTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
+  toxicTag: { backgroundColor: '#EF4444', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 10 },
+  toxicTagText: { fontSize: 9, fontWeight: '800', color: '#FFF' },
+  alertDesc: { fontSize: 12, color: '#64748B', lineHeight: 18, marginTop: 4 },
+  toxicBold: { color: '#EF4444', fontWeight: '800' },
+  section: { marginBottom: 32 },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  sectionTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
+  seeAll: { fontSize: 13, color: '#0EA5E9', fontWeight: '700' },
+  catScroll: { marginHorizontal: -24, paddingHorizontal: 24 },
+  catBtn: { alignItems: 'center', marginRight: 16 },
+  catIcon: { width: 64, height: 64, borderRadius: 20, justifyContent: 'center', alignItems: 'center', marginBottom: 8 },
+  catEmoji: { fontSize: 24 },
+  catLabel: { fontSize: 10, fontWeight: '800', color: '#94A3B8' },
+  foodList: { gap: 12 },
+  foodItem: { backgroundColor: '#FFF', borderRadius: 24, padding: 16, flexDirection: 'row', alignItems: 'center', borderWidth: 1, borderColor: '#F1F5F9' },
+  foodEmojiContainer: { width: 48, height: 48, backgroundColor: '#F8FAFC', borderRadius: 16, justifyContent: 'center', alignItems: 'center' },
+  foodEmoji: { fontSize: 24 },
+  foodInfo: { flex: 1, marginLeft: 16 },
+  foodName: { fontSize: 14, fontWeight: '800', color: '#0F172A' },
+  foodDesc: { fontSize: 10, color: '#94A3B8' },
+  statusBadge: { paddingHorizontal: 8, paddingVertical: 4, borderRadius: 10, flexDirection: 'row', alignItems: 'center', gap: 4 },
+  statusText: { fontSize: 10, fontWeight: '800' },
+});
 
 export default FoodChecker;

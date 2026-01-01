@@ -1,67 +1,87 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Dimensions } from '../components/Native';
+
+const { width, height } = Dimensions.get('window');
 
 const SplashScreen: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="relative h-screen w-full overflow-hidden flex flex-col justify-between px-6 py-12">
-      <div className="absolute inset-0 z-0 bg-slate-900">
-        <img 
-          alt="Happy dog running" 
-          className="w-full h-full object-cover opacity-80"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaBJkAewJS4scNRhWgfLsjmFNUysNO7KURLHNK964sJzLK3b3u8vbcOyruMuXmKt0sw-STOtXpTTq14UA50OL_o0wavzTXbd3kxy5TReJIBS0yA9abJsD0-btocs6YJH3ycwbSHS6OtpwtyuKD3CXU9BvVBUdjpSkeDIUPoWT7S6YHmobSysMTq53ATA_R-Fwvf-0rDGtjqkWqKXUAU1GtwY7bXqTrCfFzwFownhj0xSuYccHsBJWxaKE8-xv6BgFc7iABj8Rgh30u"
+    <View style={styles.container}>
+      <View style={styles.backgroundContainer}>
+        <Image 
+          source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBaBJkAewJS4scNRhWgfLsjmFNUysNO7KURLHNK964sJzLK3b3u8vbcOyruMuXmKt0sw-STOtXpTTq14UA50OL_o0wavzTXbd3kxy5TReJIBS0yA9abJsD0-btocs6YJH3ycwbSHS6OtpwtyuKD3CXU9BvVBUdjpSkeDIUPoWT7S6YHmobSysMTq53ATA_R-Fwvf-0rDGtjqkWqKXUAU1GtwY7bXqTrCfFzwFownhj0xSuYccHsBJWxaKE8-xv6BgFc7iABj8Rgh30u' }} 
+          style={styles.bgImage}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/20 to-slate-900/90"></div>
-      </div>
+        <View style={styles.overlay} />
+      </View>
 
-      <div className="relative z-10 flex justify-end">
-        <button 
-          onClick={() => navigate('/login')}
-          className="text-white/80 text-sm font-medium backdrop-blur-md px-4 py-1.5 rounded-full bg-white/10 hover:bg-white/20 transition-all"
-        >
-          Log In
-        </button>
-      </div>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigate('/login')} style={styles.loginBtn}>
+          <Text style={styles.loginBtnText}>Log In</Text>
+        </TouchableOpacity>
+      </View>
 
-      <div className="relative z-10 flex flex-col items-center animate-fade-in-up">
-        <div className="relative w-28 h-28 mb-6">
-          <div className="absolute inset-0 bg-primary rounded-3xl rotate-6 opacity-60 blur-lg animate-pulse-slow"></div>
-          <div className="relative bg-white dark:bg-card-dark rounded-3xl p-5 shadow-2xl flex items-center justify-center w-full h-full">
-            <span className="material-icons text-5xl text-primary">pets</span>
-          </div>
-        </div>
-        <h1 className="text-5xl font-bold text-white mb-2 tracking-tight">Aagaz</h1>
-        <p className="text-blue-100 text-lg font-light">Pet Care Companion</p>
-      </div>
+      <View style={styles.logoSection}>
+        <View style={styles.logoWrapper}>
+          <View style={styles.logoBg} />
+          <View style={styles.logoCard}>
+            <Text style={styles.logoIcon}>pets</Text>
+          </View>
+        </View>
+        <Text style={styles.brandTitle}>Aagaz</Text>
+        <Text style={styles.brandSubtitle}>Pet Care Companion</Text>
+      </View>
 
-      <div className="relative z-10 flex flex-col items-center space-y-8 pb-10">
-        <div className="text-center">
-          <p className="text-3xl font-bold text-white leading-tight mb-2">
-            Love, Care, & <br/> <span className="text-secondary">Understanding</span>
-          </p>
-          <p className="text-blue-100/80 text-sm max-w-xs mx-auto">
-            Everything your furry friend needs, all in one place.
-          </p>
-        </div>
+      <View style={styles.footer}>
+        <View style={styles.textGroup}>
+          <Text style={styles.mainTagline}>Love, Care, &{"\n"}<Text style={styles.highlightText}>Understanding</Text></Text>
+          <Text style={styles.subTagline}>Everything your furry friend needs, all in one place.</Text>
+        </View>
 
-        <button 
-          onClick={() => navigate('/login')}
-          className="group relative w-full flex items-center justify-center py-4 bg-primary hover:bg-sky-400 text-white text-lg font-bold rounded-2xl shadow-glow transition-all active:scale-95"
-        >
-          <span>Get Started</span>
-          <span className="material-icons ml-2 group-hover:translate-x-1 transition-transform">arrow_forward</span>
-        </button>
+        <TouchableOpacity onPress={() => navigate('/login')} style={styles.startBtn}>
+          <Text style={styles.startBtnText}>Get Started</Text>
+          <Text style={styles.btnIcon}>arrow_forward</Text>
+        </TouchableOpacity>
         
-        <div className="flex space-x-2">
-          <div className="w-2 h-2 rounded-full bg-white"></div>
-          <div className="w-2 h-2 rounded-full bg-white/40"></div>
-          <div className="w-2 h-2 rounded-full bg-white/40"></div>
-        </div>
-      </div>
-    </div>
+        <View style={styles.pagination}>
+          <View style={[styles.dot, styles.activeDot]} />
+          <View style={styles.dot} />
+          <View style={styles.dot} />
+        </View>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#0F172A', justifyContent: 'space-between', paddingHorizontal: 24, paddingVertical: 48 },
+  backgroundContainer: { position: 'absolute', inset: 0 },
+  bgImage: { width: '100%', height: '100%', opacity: 0.8 },
+  overlay: { position: 'absolute', inset: 0, backgroundColor: 'linear-gradient(to bottom, rgba(14, 165, 233, 0.2), rgba(15, 23, 42, 0.9))' },
+  header: { alignItems: 'flex-end' },
+  loginBtn: { paddingHorizontal: 16, paddingVertical: 6, borderRadius: 20, backgroundColor: 'rgba(255, 255, 255, 0.1)' },
+  loginBtnText: { color: 'rgba(255, 255, 255, 0.8)', fontSize: 14, fontWeight: '600' },
+  logoSection: { alignItems: 'center' },
+  logoWrapper: { width: 112, height: 112, marginBottom: 24 },
+  logoBg: { position: 'absolute', inset: 0, backgroundColor: '#0EA5E9', borderRadius: 24, transform: [{ rotate: '6deg' }], opacity: 0.6 },
+  logoCard: { flex: 1, backgroundColor: '#FFFFFF', borderRadius: 24, justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.2, shadowRadius: 20 },
+  logoIcon: { fontFamily: 'Material Icons Round', fontSize: 48, color: '#0EA5E9' },
+  brandTitle: { fontSize: 48, fontWeight: '800', color: '#FFFFFF', marginBottom: 8 },
+  brandSubtitle: { fontSize: 18, fontWeight: '300', color: '#BFDBFE' },
+  footer: { alignItems: 'center' },
+  textGroup: { textAlign: 'center', marginBottom: 32 },
+  mainTagline: { fontSize: 32, fontWeight: '800', color: '#FFFFFF', lineHeight: 40, marginBottom: 8, textAlign: 'center' },
+  highlightText: { color: '#38BDF8' },
+  subTagline: { fontSize: 14, color: 'rgba(191, 219, 254, 0.8)', maxWidth: 280, textAlign: 'center' },
+  startBtn: { width: '100%', backgroundColor: '#0EA5E9', height: 64, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center' },
+  startBtnText: { color: '#FFFFFF', fontSize: 18, fontWeight: '800' },
+  btnIcon: { fontFamily: 'Material Icons Round', color: '#FFFFFF', marginLeft: 8, fontSize: 20 },
+  pagination: { flexDirection: 'row', gap: 8, marginTop: 32 },
+  dot: { width: 8, height: 8, borderRadius: 4, backgroundColor: 'rgba(255, 255, 255, 0.4)' },
+  activeDot: { backgroundColor: '#FFFFFF' },
+});
 
 export default SplashScreen;

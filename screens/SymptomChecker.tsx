@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, MaterialIcon } from '../components/Native';
 import { Pet } from '../types';
 
 export interface SymptomCheckerProps {
@@ -11,70 +12,123 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet }) => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 pb-32 overflow-y-auto no-scrollbar bg-background-light dark:bg-background-dark">
-      <header className="px-6 pt-12 pb-4 flex items-center justify-between sticky top-0 z-20 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
-        <button onClick={() => navigate('/home')} className="p-2 rounded-full bg-white dark:bg-card-dark shadow-sm">
-          <span className="material-icons-round">arrow_back</span>
-        </button>
-        <h1 className="text-lg font-bold dark:text-white">Symptom Checker</h1>
-        <button className="p-2 rounded-full bg-white dark:bg-card-dark shadow-sm text-primary">
-          <span className="material-icons-round">history</span>
-        </button>
-      </header>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigate('/home')} style={styles.navBtn}>
+          <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Symptom Checker</Text>
+        <TouchableOpacity style={styles.navBtn}>
+          <MaterialIcon name="history" size={24} color="#0EA5E9" />
+        </TouchableOpacity>
+      </View>
 
-      <div className="text-center mt-6 mb-8 px-6">
-        <p className="text-gray-400 text-xs font-bold mb-2">Checking for</p>
-        <div className="inline-flex items-center gap-3 bg-white dark:bg-card-dark px-4 py-2 rounded-full shadow-sm border border-gray-50 dark:border-gray-800">
-          <img src={pet.avatar} alt="Pet" className="w-8 h-8 rounded-full border-2 border-primary object-cover" />
-          <span className="text-sm font-bold dark:text-white">{pet.name} ({pet.breed})</span>
-          <span className="material-icons-round text-gray-200 text-sm">expand_more</span>
-        </div>
-      </div>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.targetSection}>
+          <Text style={styles.targetLabel}>Checking for</Text>
+          <View style={styles.targetCard}>
+            <Image source={{ uri: pet.avatar }} style={styles.targetAvatar} />
+            <Text style={styles.targetName}>{pet.name} ({pet.breed})</Text>
+            <MaterialIcon name="expand_more" size={18} color="#CBD5E1" />
+          </View>
+        </View>
 
-      <div className="relative w-full h-80 flex items-center justify-center mb-8">
-        <div className="absolute inset-0 mx-6 bg-gradient-to-b from-blue-50/50 to-transparent dark:from-blue-900/10 rounded-[3rem] -z-10"></div>
-        <img 
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCv9vE7rPmQYkux1a50HKBMihGMd0ec0tLc_ecw7cvGDU-tBo3yNLDuafIZZ7rA-Q_e3ouvErXTn4paPGiB28zSkpUrs_yhyfkCV_TUKX6R9nr9G_DAE1S0Sai6q8gEvlzTX6IdQw1RozUQeHDxYC_HUDAbJ9nYtzxITMqZe0sCN-ZgV62iLGOLLXmUs4r52wbvTTYWW4sII83UpmIMLZ62rE25UNRtZpsrWUuvugxNC8S3Xs02xEWNJMD7mItVJI48anH3Hot6jtJx" 
-          alt="Body Map" 
-          className="h-64 object-contain filter drop-shadow-2xl"
-        />
-        
-        <div onClick={() => navigate('/diagnosis')} className="absolute top-32 left-1/2 -translate-x-8 cursor-pointer">
-          <div className="bg-card-dark text-white text-[10px] font-bold py-1.5 px-3 rounded-lg shadow-xl mb-2 whitespace-nowrap animate-bounce">Torso & Stomach</div>
-          <div className="w-5 h-5 bg-primary/40 rounded-full animate-ping absolute left-1/2 -translate-x-1/2"></div>
-          <div className="w-5 h-5 bg-primary border-4 border-white rounded-full relative shadow-glow mx-auto"></div>
-        </div>
+        <View style={styles.bodyMapContainer}>
+          <View style={styles.mapBg} />
+          <Image 
+            source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCv9vE7rPmQYkux1a50HKBMihGMd0ec0tLc_ecw7cvGDU-tBo3yNLDuafIZZ7rA-Q_e3ouvErXTn4paPGiB28zSkpUrs_yhyfkCV_TUKX6R9nr9G_DAE1S0Sai6q8gEvlzTX6IdQw1RozUQeHDxYC_HUDAbJ9nYtzxITMqZe0sCN-ZgV62iLGOLLXmUs4r52wbvTTYWW4sII83UpmIMLZ62rE25UNRtZpsrWUuvugxNC8S3Xs02xEWNJMD7mItVJI48anH3Hot6jtJx' }} 
+            style={styles.bodyMap}
+          />
+          
+          <TouchableOpacity onPress={() => navigate('/diagnosis')} style={styles.hotspot}>
+            <View style={styles.tooltip}><Text style={styles.tooltipText}>Torso & Stomach</Text></View>
+            <View style={styles.ping} />
+            <View style={styles.dot} />
+          </TouchableOpacity>
 
-        <p className="absolute bottom-0 text-[10px] text-gray-400 font-bold italic">Tap on the body area to focus symptoms</p>
-      </div>
+          <Text style={styles.helperText}>Tap on the body area to focus symptoms</Text>
+        </View>
 
-      <div className="px-6">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className="text-lg font-bold dark:text-white">Common Symptoms</h2>
-          <button className="text-primary text-sm font-bold">View all</button>
-        </div>
-        
-        <div className="space-y-4">
-          <SymptomItem title="Vomiting" desc="Frequent or acute stomach upset" icon="sick" color="bg-orange-100 text-orange-500" onClick={() => navigate('/diagnosis')} />
-          <SymptomItem title="Itching & Scratching" desc="Skin irritation or parasites" icon="pest_control" color="bg-blue-100 text-blue-500" />
-          <SymptomItem title="Limping" desc="Difficulty walking or joint pain" icon="pets" color="bg-purple-100 text-purple-500" />
-        </div>
-      </div>
-    </div>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Common Symptoms</Text>
+            <TouchableOpacity><Text style={styles.seeAll}>View all</Text></TouchableOpacity>
+          </View>
+          
+          <View style={styles.list}>
+            <SymptomItem title="Vomiting" desc="Frequent or acute stomach upset" icon="sick" color="#FFF7ED" iconColor="#F97316" onClick={() => navigate('/diagnosis')} />
+            <SymptomItem title="Itching & Scratching" desc="Skin irritation or parasites" icon="pest_control" color="#F0F9FF" iconColor="#0EA5E9" />
+            <SymptomItem title="Limping" desc="Difficulty walking or joint pain" icon="pets" color="#FAF5FF" iconColor="#A855F7" />
+          </View>
+        </View>
+
+        <View style={styles.promoCard}>
+          <View style={styles.promoContent}>
+            <Text style={styles.promoTitle}>Emergency Help?</Text>
+            <Text style={styles.promoDesc}>If your pet is in critical condition, connect with a vet immediately.</Text>
+            <TouchableOpacity style={styles.promoBtn}>
+              <MaterialIcon name="call" size={18} color="#0EA5E9" />
+              <Text style={styles.promoBtnText}>Call Vet Now</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.promoBgIcon}><MaterialIcon name="medical_services" size={120} color="#FFF" /></View>
+        </View>
+        <View style={{ height: 160 }} />
+      </ScrollView>
+    </View>
   );
 };
 
-const SymptomItem: React.FC<{ title: string; desc: string; icon: string; color: string; onClick?: () => void }> = ({ title, desc, icon, color, onClick }) => (
-  <button onClick={onClick} className="w-full bg-white dark:bg-card-dark p-4 rounded-3xl shadow-sm border border-transparent hover:border-primary/20 transition-all flex items-center gap-4 text-left group">
-    <div className={`w-12 h-12 rounded-2xl ${color} flex items-center justify-center shrink-0`}>
-      <span className="material-icons-round">{icon}</span>
-    </div>
-    <div className="flex-1">
-      <h3 className="font-bold text-sm dark:text-white group-hover:text-primary transition-colors">{title}</h3>
-      <p className="text-[10px] text-gray-400 font-bold">{desc}</p>
-    </div>
-    <span className="material-icons-round text-gray-200 group-hover:text-primary transition-colors">chevron_right</span>
-  </button>
+const SymptomItem = ({ title, desc, icon, color, iconColor, onClick }: any) => (
+  <TouchableOpacity onPress={onClick} style={styles.item}>
+    <View style={[styles.itemIcon, { backgroundColor: color }]}>
+      <MaterialIcon name={icon} size={24} color={iconColor} />
+    </View>
+    <View style={styles.itemInfo}>
+      <Text style={styles.itemName}>{title}</Text>
+      <Text style={styles.itemDesc}>{desc}</Text>
+    </View>
+    <MaterialIcon name="chevron_right" size={20} color="#E2E8F0" />
+  </TouchableOpacity>
 );
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  header: { paddingTop: 60, pb: 16, px: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16 },
+  navBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
+  content: { flex: 1, paddingHorizontal: 24 },
+  targetSection: { alignItems: 'center', marginVertical: 32 },
+  targetLabel: { fontSize: 11, fontWeight: '800', color: '#94A3B8', textTransform: 'uppercase', marginBottom: 12 },
+  targetCard: { backgroundColor: '#FFF', borderRadius: 40, paddingHorizontal: 20, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10 },
+  targetAvatar: { width: 32, height: 32, borderRadius: 16, borderWidth: 2, borderColor: '#0EA5E9' },
+  targetName: { fontSize: 14, fontWeight: '800', color: '#0F172A' },
+  bodyMapContainer: { height: 320, justifyContent: 'center', alignItems: 'center', marginBottom: 32, position: 'relative' },
+  mapBg: { position: 'absolute', inset: 0, backgroundColor: '#F0F9FF', borderRadius: 48, opacity: 0.5 },
+  bodyMap: { height: 260, width: 200, objectFit: 'contain' },
+  hotspot: { position: 'absolute', top: 120, left: '50%', transform: [{ translateX: -40 }], alignItems: 'center' },
+  tooltip: { backgroundColor: '#1E293B', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, marginBottom: 8 },
+  tooltipText: { color: '#FFF', fontSize: 10, fontWeight: '800' },
+  ping: { position: 'absolute', bottom: 0, width: 24, height: 24, borderRadius: 12, backgroundColor: 'rgba(14, 165, 233, 0.4)' },
+  dot: { width: 16, height: 16, borderRadius: 8, backgroundColor: '#0EA5E9', borderWidth: 3, borderColor: '#FFF' },
+  helperText: { position: 'absolute', bottom: 16, fontSize: 10, color: '#94A3B8', fontWeight: '800', fontStyle: 'italic' },
+  section: { marginBottom: 32 },
+  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  sectionTitle: { fontSize: 18, fontWeight: '900', color: '#0F172A' },
+  seeAll: { fontSize: 13, color: '#0EA5E9', fontWeight: '700' },
+  list: { gap: 12 },
+  item: { backgroundColor: '#FFF', borderRadius: 24, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  itemIcon: { width: 48, height: 48, borderRadius: 16, justifyContent: 'center', alignItems: 'center' },
+  itemInfo: { flex: 1 },
+  itemName: { fontSize: 15, fontWeight: '800', color: '#0F172A' },
+  itemDesc: { fontSize: 11, color: '#94A3B8', fontWeight: '800' },
+  promoCard: { backgroundColor: '#0EA5E9', borderRadius: 32, padding: 24, overflow: 'hidden', flexDirection: 'row' },
+  promoContent: { flex: 1, zIndex: 1 },
+  promoTitle: { fontSize: 20, fontWeight: '900', color: '#FFF', marginBottom: 4 },
+  promoDesc: { fontSize: 12, color: '#E0F2FE', lineHeight: 18, marginBottom: 16, maxWidth: '80%' },
+  promoBtn: { backgroundColor: '#FFF', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12, flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center', gap: 8 },
+  promoBtnText: { color: '#0EA5E9', fontSize: 13, fontWeight: '800' },
+  promoBgIcon: { position: 'absolute', right: -30, bottom: -30, opacity: 0.1, transform: [{ rotate: '15deg' }] },
+});
 
 export default SymptomChecker;

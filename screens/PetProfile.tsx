@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { View, Text, TouchableOpacity, Image, TextInput, ScrollView, StyleSheet, MaterialIcon } from '../components/Native';
 import { Pet } from '../types';
 
 interface PetProfileProps {
@@ -8,7 +9,7 @@ interface PetProfileProps {
   onSave: (pet: Pet) => void;
 }
 
-const PetProfile = ({ pet, onSave }: PetProfileProps) => {
+const PetProfile: React.FC<PetProfileProps> = ({ pet, onSave }) => {
   const navigate = useNavigate();
   const [editedPet, setEditedPet] = useState<Pet>(pet);
 
@@ -18,120 +19,159 @@ const PetProfile = ({ pet, onSave }: PetProfileProps) => {
   };
 
   return (
-    <div className="flex-1 flex flex-col h-screen overflow-hidden">
-      <div className="px-6 pt-12 pb-4 flex items-center justify-between z-10">
-        <button onClick={() => navigate(-1)} className="p-2 rounded-full bg-gray-50 dark:bg-gray-800">
-          <span className="material-icons-round">arrow_back</span>
-        </button>
-        <h1 className="text-lg font-bold dark:text-white">Pet Profile</h1>
-        <div className="w-10"></div>
-      </div>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigate(-1)} style={styles.backBtn}>
+          <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Pet Profile</Text>
+        <View style={{ width: 44 }} />
+      </View>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar px-6 pb-24">
-        <div className="flex flex-col items-center mb-8 mt-4">
-          <div className="relative group cursor-pointer">
-            <div className="w-32 h-32 rounded-full bg-blue-50 dark:bg-gray-800 flex items-center justify-center border-4 border-white dark:border-card-dark shadow-xl overflow-hidden relative">
-              <img src={editedPet.avatar} alt="Pet Avatar" className="w-full h-full object-cover" />
-              <div className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <span className="material-icons-round text-white text-3xl">camera_alt</span>
-              </div>
-            </div>
-            <p className="text-center mt-3 text-sm font-bold text-primary">Upload Photo</p>
-          </div>
-        </div>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.avatarSection}>
+          <TouchableOpacity style={styles.avatarWrapper}>
+            <Image source={{ uri: editedPet.avatar }} style={styles.avatar} />
+            <View style={styles.cameraOverlay}>
+              <MaterialIcon name="camera_alt" size={24} color="#FFF" />
+            </View>
+          </TouchableOpacity>
+          <Text style={styles.uploadText}>Upload Photo</Text>
+        </View>
 
-        <div className="space-y-6">
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-gray-400 ml-1">Pet Name</label>
-            <div className="relative">
-              <input 
+        <View style={styles.form}>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Pet Name</Text>
+            <View style={styles.inputWrapper}>
+              <TextInput 
                 value={editedPet.name}
-                onChange={(e) => setEditedPet({ ...editedPet, name: e.target.value })}
-                className="w-full bg-gray-50 dark:bg-card-dark border-none rounded-2xl py-4 pl-4 pr-12 focus:ring-2 focus:ring-primary font-bold dark:text-white"
+                onChangeText={(t) => setEditedPet({ ...editedPet, name: t })}
                 placeholder="e.g. Charlie"
+                style={styles.input}
               />
-              <span className="material-icons-round absolute right-4 top-1/2 -translate-y-1/2 text-gray-300">edit</span>
-            </div>
-          </div>
+              <MaterialIcon name="edit" size={20} color="#CBD5E1" />
+            </View>
+          </View>
 
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-gray-400 ml-1">Pet Type</label>
-            <div className="grid grid-cols-2 gap-4">
-              <button 
-                onClick={() => setEditedPet({ ...editedPet, type: 'Dog' })}
-                className={`flex items-center justify-center gap-2 py-4 rounded-2xl border-2 transition-all ${editedPet.type === 'Dog' ? 'border-primary bg-primary/10 text-primary' : 'border-transparent bg-gray-50 dark:bg-card-dark text-gray-400'}`}>
-                <span className="material-icons-round">pets</span>
-                <span className="font-bold">Dog</span>
-              </button>
-              <button 
-                onClick={() => setEditedPet({ ...editedPet, type: 'Cat' })}
-                className={`flex items-center justify-center gap-2 py-4 rounded-2xl border-2 transition-all ${editedPet.type === 'Cat' ? 'border-primary bg-primary/10 text-primary' : 'border-transparent bg-gray-50 dark:bg-card-dark text-gray-400'}`}>
-                <span className="material-icons-round">catching_pokemon</span>
-                <span className="font-bold">Cat</span>
-              </button>
-            </div>
-          </div>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Pet Type</Text>
+            <View style={styles.row}>
+              <TouchableOpacity 
+                onPress={() => setEditedPet({ ...editedPet, type: 'Dog' })}
+                style={[styles.typeBtn, editedPet.type === 'Dog' && styles.typeBtnActive]}
+              >
+                <MaterialIcon name="pets" size={20} color={editedPet.type === 'Dog' ? '#0EA5E9' : '#94A3B8'} />
+                <Text style={[styles.typeBtnText, editedPet.type === 'Dog' && styles.typeBtnTextActive]}>Dog</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => setEditedPet({ ...editedPet, type: 'Cat' })}
+                style={[styles.typeBtn, editedPet.type === 'Cat' && styles.typeBtnActive]}
+              >
+                <MaterialIcon name="catching_pokemon" size={20} color={editedPet.type === 'Cat' ? '#0EA5E9' : '#94A3B8'} />
+                <Text style={[styles.typeBtnText, editedPet.type === 'Cat' && styles.typeBtnTextActive]}>Cat</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
 
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-gray-400 ml-1">Breed</label>
-            <div className="relative">
-              <input 
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Breed</Text>
+            <View style={styles.inputWrapper}>
+              <TextInput 
                 value={editedPet.breed}
-                onChange={(e) => setEditedPet({ ...editedPet, breed: e.target.value })}
-                className="w-full bg-gray-50 dark:bg-card-dark border-none rounded-2xl py-4 pl-4 pr-12 focus:ring-2 focus:ring-primary font-bold dark:text-white"
-                placeholder="e.g. Golden Retriever"
+                onChangeText={(t) => setEditedPet({ ...editedPet, breed: t })}
+                placeholder="e.g. Beagle"
+                style={styles.input}
               />
-              <span className="material-icons-round absolute right-4 top-1/2 -translate-y-1/2 text-gray-300">search</span>
-            </div>
-          </div>
+              <MaterialIcon name="search" size={20} color="#CBD5E1" />
+            </View>
+          </View>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-gray-400 ml-1">Age (Years)</label>
-              <input 
-                type="number" 
-                value={editedPet.age}
-                onChange={(e) => setEditedPet({ ...editedPet, age: parseInt(e.target.value) || 0 })}
-                className="w-full bg-gray-50 dark:bg-card-dark border-none rounded-2xl py-4 px-4 focus:ring-2 focus:ring-primary text-center font-bold dark:text-white"
+          <View style={styles.row}>
+            <View style={[styles.inputGroup, { flex: 1 }]}>
+              <Text style={styles.label}>Age (Years)</Text>
+              <TextInput 
+                value={editedPet.age.toString()}
+                onChangeText={(t) => setEditedPet({ ...editedPet, age: parseInt(t) || 0 })}
+                keyboardType="numeric"
+                style={styles.inputSmall}
               />
-            </div>
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-gray-400 ml-1">Weight (kg)</label>
-              <input 
-                type="number" 
-                value={editedPet.weight}
-                onChange={(e) => setEditedPet({ ...editedPet, weight: parseFloat(e.target.value) || 0 })}
-                className="w-full bg-gray-50 dark:bg-card-dark border-none rounded-2xl py-4 px-4 focus:ring-2 focus:ring-primary text-center font-bold dark:text-white"
+            </View>
+            <View style={[styles.inputGroup, { flex: 1 }]}>
+              <Text style={styles.label}>Weight (kg)</Text>
+              <TextInput 
+                value={editedPet.weight.toString()}
+                onChangeText={(t) => setEditedPet({ ...editedPet, weight: parseFloat(t) || 0 })}
+                keyboardType="numeric"
+                style={styles.inputSmall}
               />
-            </div>
-          </div>
+            </View>
+          </View>
 
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-400 ml-1">Gender</label>
-            <div className="flex gap-4">
-              <button 
-                onClick={() => setEditedPet({ ...editedPet, gender: 'Male' })}
-                className={`flex-1 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${editedPet.gender === 'Male' ? 'bg-primary text-white shadow-glow' : 'bg-gray-50 dark:bg-card-dark text-gray-400'}`}>
-                <span className="material-icons-round">male</span> Male
-              </button>
-              <button 
-                onClick={() => setEditedPet({ ...editedPet, gender: 'Female' })}
-                className={`flex-1 py-4 rounded-2xl font-bold flex items-center justify-center gap-2 transition-all ${editedPet.gender === 'Female' ? 'bg-pink-500 text-white shadow-lg' : 'bg-gray-50 dark:bg-card-dark text-gray-400'}`}>
-                <span className="material-icons-round">female</span> Female
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Gender</Text>
+            <View style={styles.row}>
+              <TouchableOpacity 
+                onPress={() => setEditedPet({ ...editedPet, gender: 'Male' })}
+                style={[styles.genderBtn, editedPet.gender === 'Male' && styles.genderBtnMale]}
+              >
+                <MaterialIcon name="male" size={20} color={editedPet.gender === 'Male' ? '#FFF' : '#94A3B8'} />
+                <Text style={[styles.genderText, editedPet.gender === 'Male' && styles.genderTextActive]}>Male</Text>
+              </TouchableOpacity>
+              <TouchableOpacity 
+                onPress={() => setEditedPet({ ...editedPet, gender: 'Female' })}
+                style={[styles.genderBtn, editedPet.gender === 'Female' && styles.genderBtnFemale]}
+              >
+                <MaterialIcon name="female" size={20} color={editedPet.gender === 'Female' ? '#FFF' : '#94A3B8'} />
+                <Text style={[styles.genderText, editedPet.gender === 'Female' && styles.genderTextActive]}>Female</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+        <View style={{ height: 160 }} />
+      </ScrollView>
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-white dark:from-background-dark via-white dark:via-background-dark to-transparent pt-10">
-        <button onClick={handleSave} className="w-full bg-primary text-white font-bold py-4 rounded-2xl shadow-glow text-lg flex items-center justify-center gap-2">
-          <span>Save Profile</span>
-          <span className="material-icons-round">check_circle</span>
-        </button>
-      </div>
-    </div>
+      <View style={styles.footer}>
+        <TouchableOpacity onPress={handleSave} style={styles.saveBtn}>
+          <Text style={styles.saveText}>Save Profile</Text>
+          <MaterialIcon name="check_circle" size={20} color="#FFF" />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  // Fix: Removed duplicate pb/paddingBottom keys in header
+  header: { paddingTop: 60, paddingHorizontal: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 16 },
+  backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
+  content: { flex: 1, paddingHorizontal: 24 },
+  avatarSection: { alignItems: 'center', marginVertical: 32 },
+  avatarWrapper: { width: 128, height: 128, borderRadius: 64, position: 'relative', shadowColor: '#000', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.1, shadowRadius: 20 },
+  avatar: { width: '100%', height: '100%', borderRadius: 64, borderWidth: 4, borderColor: '#FFF' },
+  cameraOverlay: { position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.2)', borderRadius: 64, justifyContent: 'center', alignItems: 'center' },
+  uploadText: { marginTop: 16, fontSize: 14, fontWeight: '800', color: '#0EA5E9' },
+  form: { gap: 24 },
+  inputGroup: { gap: 8 },
+  label: { fontSize: 13, fontWeight: '800', color: '#94A3B8', marginLeft: 4 },
+  inputWrapper: { height: 64, backgroundColor: '#F8FAFC', borderRadius: 20, flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, borderWidth: 1, borderColor: '#F1F5F9' },
+  input: { flex: 1, fontSize: 16, fontWeight: '700', color: '#0F172A' },
+  inputSmall: { height: 64, backgroundColor: '#F8FAFC', borderRadius: 20, paddingHorizontal: 16, textAlign: 'center', fontSize: 16, fontWeight: '800', color: '#0F172A', borderWidth: 1, borderColor: '#F1F5F9' },
+  row: { flexDirection: 'row', gap: 16 },
+  // Fix: Removed duplicate borderColor and corrected invalid borderWeight key in typeBtn
+  typeBtn: { flex: 1, height: 64, borderRadius: 20, backgroundColor: '#F8FAFC', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, borderWidth: 1, borderColor: '#F1F5F9' },
+  typeBtnActive: { borderColor: '#0EA5E9', backgroundColor: '#F0F9FF' },
+  typeBtnText: { fontSize: 14, fontWeight: '800', color: '#94A3B8' },
+  typeBtnTextActive: { color: '#0EA5E9' },
+  genderBtn: { flex: 1, height: 64, borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, backgroundColor: '#F8FAFC' },
+  genderBtnMale: { backgroundColor: '#0EA5E9', shadowColor: '#0EA5E9', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.3, shadowRadius: 15 },
+  genderBtnFemale: { backgroundColor: '#EC4899', shadowColor: '#EC4899', shadowOffset: { width: 0, height: 8 }, shadowOpacity: 0.3, shadowRadius: 15 },
+  genderText: { fontSize: 14, fontWeight: '800', color: '#94A3B8' },
+  genderTextActive: { color: '#FFF' },
+  footer: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 24, backgroundColor: 'rgba(248, 250, 252, 0.95)' },
+  saveBtn: { height: 64, backgroundColor: '#0EA5E9', borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12, shadowColor: '#0EA5E9', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.3, shadowRadius: 20 },
+  saveText: { color: '#FFF', fontSize: 18, fontWeight: '800' },
+});
 
 export default PetProfile;

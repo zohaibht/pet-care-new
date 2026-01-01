@@ -1,108 +1,161 @@
 
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, MaterialIcon } from '../components/Native';
 
 const DiagnosisScreen: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 bg-background-light dark:bg-background-dark flex flex-col h-screen overflow-hidden">
-      <div className="px-6 pt-12 pb-4 flex items-center justify-between z-10 sticky top-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
-        <button onClick={() => navigate(-1)} className="p-2 rounded-full bg-white dark:bg-card-dark shadow-sm">
-          <span className="material-icons-round">arrow_back</span>
-        </button>
-        <h1 className="text-lg font-bold dark:text-white">Diagnosis & First Aid</h1>
-        <button className="p-2 rounded-full bg-white dark:bg-card-dark shadow-sm">
-          <span className="material-icons-round">share</span>
-        </button>
-      </div>
+    <View style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigate(-1)} style={styles.backBtn}>
+          <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Diagnosis & First Aid</Text>
+        <TouchableOpacity style={styles.backBtn}>
+          <MaterialIcon name="share" size={24} color="#0F172A" />
+        </TouchableOpacity>
+      </View>
 
-      <div className="flex-1 overflow-y-auto no-scrollbar px-6 pb-40">
-        <div className="mt-4 mb-8">
-          <div className="bg-white dark:bg-card-dark rounded-3xl p-6 shadow-soft flex items-center gap-5">
-            <div className="w-16 h-16 rounded-full bg-red-50 flex items-center justify-center shrink-0">
-              <span className="material-icons-round text-3xl text-toxic">sick</span>
-            </div>
-            <div>
-              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">Detected Symptom</p>
-              <h2 className="text-2xl font-extrabold dark:text-white">Vomiting</h2>
-              <p className="text-xs text-gray-500 mt-1 font-bold">Severity: <span className="text-orange-500">Moderate</span></p>
-            </div>
-          </div>
-        </div>
+      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+        <View style={styles.summaryCard}>
+          <View style={styles.detectedIcon}>
+            <MaterialIcon name="sick" size={32} color="#EF4444" />
+          </View>
+          <View>
+            <Text style={styles.label}>Detected Symptom</Text>
+            <Text style={styles.detectedTitle}>Vomiting</Text>
+            <Text style={styles.severity}>Severity: <Text style={styles.sevMed}>Moderate</Text></Text>
+          </View>
+        </View>
 
-        <div className="mb-8">
-          <h3 className="text-lg font-bold mb-4 dark:text-white flex items-center">
-            <span className="material-icons-round text-primary mr-2">analytics</span>
-            Possible Causes
-          </h3>
-          <div className="space-y-4">
-            <div className="bg-white dark:bg-card-dark rounded-2xl p-4 shadow-sm border-l-4 border-primary">
-              <div className="flex justify-between items-start mb-2">
-                <h4 className="font-bold dark:text-white">Food Poisoning</h4>
-                <span className="bg-primary/10 text-primary text-[10px] font-bold px-2 py-1 rounded-md">High Prob.</span>
-              </div>
-              <p className="text-[11px] text-gray-500 leading-relaxed mb-3">Ingestion of spoiled food, chocolate, or toxic plants.</p>
-              <div className="flex items-center text-[10px] text-gray-400 font-bold">
-                <span className="material-icons-round text-sm mr-1">info</span>
-                Common in dogs who scavenge.
-              </div>
-            </div>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <MaterialIcon name="analytics" size={20} color="#0EA5E9" style={styles.secIcon} />
+            <Text style={styles.sectionTitle}>Possible Causes</Text>
+          </View>
+          <View style={styles.causesList}>
+            <View style={styles.causeCard}>
+              <View style={styles.causeHeader}>
+                <Text style={styles.causeTitle}>Food Poisoning</Text>
+                <View style={styles.probTag}><Text style={styles.probText}>High Prob.</Text></View>
+              </View>
+              <Text style={styles.causeDesc}>Ingestion of spoiled food, chocolate, or toxic plants.</Text>
+              <View style={styles.causeFooter}>
+                <MaterialIcon name="info" size={14} color="#94A3B8" />
+                <Text style={styles.footerInfo}>Common in dogs who scavenge.</Text>
+              </View>
+            </View>
 
-            <div className="bg-white dark:bg-card-dark rounded-2xl p-4 shadow-sm border-l-4 border-gray-200 dark:border-gray-800 opacity-80">
-              <div className="flex justify-between items-start">
-                <h4 className="font-bold dark:text-white">Dietary Indiscretion</h4>
-                <span className="bg-gray-100 dark:bg-gray-800 text-gray-400 text-[10px] font-bold px-2 py-1 rounded-md">Med Prob.</span>
-              </div>
-              <p className="text-[11px] text-gray-500 leading-relaxed mt-1">Eating garbage or foreign objects.</p>
-            </div>
-          </div>
-        </div>
+            <View style={[styles.causeCard, styles.causeMed]}>
+              <View style={styles.causeHeader}>
+                <Text style={styles.causeTitle}>Dietary Indiscretion</Text>
+                <View style={[styles.probTag, styles.probMed]}><Text style={[styles.probText, styles.probTextMed]}>Med Prob.</Text></View>
+              </View>
+              <Text style={styles.causeDesc}>Eating garbage or foreign objects.</Text>
+            </View>
+          </View>
+        </View>
 
-        <div className="mb-10">
-          <h3 className="text-lg font-bold mb-4 dark:text-white flex items-center">
-            <span className="material-icons-round text-orange-400 mr-2">medical_services</span>
-            Immediate Care
-          </h3>
-          <div className="bg-white dark:bg-card-dark rounded-[2rem] overflow-hidden shadow-soft border border-gray-100 dark:border-gray-800">
-            <div className="bg-orange-50 dark:bg-orange-900/10 p-4 border-b border-orange-100 dark:border-orange-800">
-              <h4 className="font-bold text-orange-500 text-xs uppercase tracking-widest">Steps for Home Relief</h4>
-            </div>
-            <div className="p-6 space-y-8">
-              <CareStep number={1} title="Withhold Food" desc="Stop feeding for 12-24 hours to let the stomach settle. Provide small amounts of water." />
-              <CareStep number={2} title="Check Hydration" desc="Check gums. If they are pale or dry, seek immediate vet attention." />
-              <CareStep number={3} title="Bland Diet" desc="Reintroduce boiled chicken and rice in small portions." />
-            </div>
-            <div className="bg-red-50 dark:bg-red-900/20 p-4 flex gap-3 items-start">
-              <span className="material-icons-round text-toxic text-sm mt-0.5">warning</span>
-              <p className="text-[10px] text-toxic font-bold leading-relaxed">If blood is present in vomit or if symptoms persist for more than 24 hours, do not wait.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <MaterialIcon name="medical_services" size={20} color="#F97316" style={styles.secIcon} />
+            <Text style={styles.sectionTitle}>Immediate Care</Text>
+          </View>
+          <View style={styles.careContainer}>
+            <View style={styles.careHeader}>
+              <Text style={styles.careHeaderText}>Steps for Home Relief</Text>
+            </View>
+            <View style={styles.careBody}>
+              <CareStep num={1} title="Withhold Food" desc="Stop feeding for 12-24 hours to let the stomach settle." isLast={false} />
+              <CareStep num={2} title="Check Hydration" desc="Check gums. If dry, seek immediate vet attention." isLast={false} />
+              <CareStep num={3} title="Bland Diet" desc="Reintroduce boiled chicken and rice in small portions." isLast />
+            </View>
+            <View style={styles.careWarning}>
+              <MaterialIcon name="warning" size={14} color="#EF4444" style={styles.warnIcon} />
+              <Text style={styles.warningText}>If blood is present or symptoms persist for 24h, call a vet.</Text>
+            </View>
+          </View>
+        </View>
+        <View style={{ height: 160 }} />
+      </ScrollView>
 
-      <div className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-light dark:from-background-dark via-background-light dark:via-background-dark to-transparent pt-12 pb-10 flex flex-col items-center gap-4">
-        <button className="w-full bg-toxic hover:bg-red-600 text-white font-bold py-4 rounded-2xl shadow-lg flex items-center justify-center gap-3 transition-all active:scale-95 group">
-          <span className="material-icons-round animate-pulse">phone_in_talk</span>
-          <span>Call Vet Emergency</span>
-        </button>
-        <button className="text-primary text-sm font-bold flex items-center gap-1">
-          Find Nearest Clinic <span className="material-icons-round text-lg">chevron_right</span>
-        </button>
-      </div>
-    </div>
+      <View style={styles.stickyFooter}>
+        <TouchableOpacity style={styles.emergencyBtn}>
+          <MaterialIcon name="phone_in_talk" size={20} color="#FFF" />
+          <Text style={styles.emergencyBtnText}>Call Vet Emergency</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.clinicLink}>
+          <Text style={styles.clinicLinkText}>Find Nearest Clinic</Text>
+          <MaterialIcon name="chevron_right" size={18} color="#0EA5E9" />
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
-const CareStep: React.FC<{ number: number; title: string; desc: string }> = ({ number, title, desc }) => (
-  <div className="flex gap-4 relative">
-    {number < 3 && <div className="absolute left-4 top-8 bottom-[-32px] w-0.5 bg-gray-100 dark:bg-gray-800"></div>}
-    <div className="w-8 h-8 rounded-full bg-orange-400 text-white flex items-center justify-center font-extrabold shadow-lg shadow-orange-200 dark:shadow-none shrink-0 relative z-10">{number}</div>
-    <div>
-      <h5 className="font-bold dark:text-white mb-1">{title}</h5>
-      <p className="text-[11px] text-gray-500 leading-relaxed font-medium">{desc}</p>
-    </div>
-  </div>
+const CareStep = ({ num, title, desc, isLast }: any) => (
+  <View style={styles.stepRow}>
+    <View style={styles.stepIndicator}>
+      <View style={styles.stepCircle}><Text style={styles.stepNum}>{num}</Text></View>
+      {!isLast && <View style={styles.stepLine} />}
+    </View>
+    <View style={styles.stepContent}>
+      <Text style={styles.stepTitle}>{title}</Text>
+      <Text style={styles.stepDesc}>{desc}</Text>
+    </View>
+  </View>
 );
+
+const styles = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#F8FAFC' },
+  header: { paddingTop: 60, pb: 16, px: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16 },
+  backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
+  content: { flex: 1, paddingHorizontal: 24 },
+  summaryCard: { backgroundColor: '#FFF', borderRadius: 32, padding: 24, flexDirection: 'row', alignItems: 'center', gap: 20, marginVertical: 24, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10 },
+  detectedIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#FEF2F2', justifyContent: 'center', alignItems: 'center' },
+  label: { fontSize: 10, fontWeight: '800', color: '#94A3B8', textTransform: 'uppercase', letterSpacing: 1 },
+  detectedTitle: { fontSize: 24, fontWeight: '900', color: '#0F172A' },
+  severity: { fontSize: 12, fontWeight: '700', color: '#64748B', marginTop: 4 },
+  sevMed: { color: '#F97316' },
+  section: { marginBottom: 32 },
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 16 },
+  secIcon: { marginRight: 8 },
+  sectionTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
+  causesList: { gap: 16 },
+  causeCard: { backgroundColor: '#FFF', borderRadius: 24, padding: 16, borderLeftWidth: 4, borderLeftColor: '#0EA5E9', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  causeHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
+  causeTitle: { fontSize: 16, fontWeight: '800', color: '#0F172A' },
+  probTag: { backgroundColor: '#E0F2FE', paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
+  probText: { fontSize: 9, fontWeight: '800', color: '#0EA5E9' },
+  causeDesc: { fontSize: 11, color: '#64748B', lineHeight: 16 },
+  causeFooter: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12 },
+  footerInfo: { fontSize: 10, fontWeight: '700', color: '#94A3B8' },
+  causeMed: { opacity: 0.8, borderLeftColor: '#E2E8F0' },
+  probMed: { backgroundColor: '#F1F5F9' },
+  probTextMed: { color: '#94A3B8' },
+  careContainer: { backgroundColor: '#FFF', borderRadius: 32, overflow: 'hidden', shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10 },
+  careHeader: { backgroundColor: '#FFF7ED', padding: 16, borderBottomWidth: 1, borderBottomColor: '#FFEDD5' },
+  careHeaderText: { fontSize: 11, fontWeight: '800', color: '#F97316', textTransform: 'uppercase' },
+  careBody: { padding: 24, gap: 32 },
+  stepRow: { flexDirection: 'row', gap: 16 },
+  stepIndicator: { alignItems: 'center' },
+  stepCircle: { width: 32, height: 32, borderRadius: 16, backgroundColor: '#F97316', justifyContent: 'center', alignItems: 'center' },
+  stepNum: { color: '#FFF', fontSize: 16, fontWeight: '900' },
+  stepLine: { width: 2, flex: 1, backgroundColor: '#F1F5F9', marginTop: 8 },
+  stepContent: { flex: 1 },
+  stepTitle: { fontSize: 15, fontWeight: '800', color: '#0F172A', marginBottom: 4 },
+  stepDesc: { fontSize: 11, color: '#64748B', lineHeight: 16 },
+  careWarning: { backgroundColor: '#FEF2F2', padding: 16, flexDirection: 'row', gap: 12 },
+  warnIcon: { marginTop: 2 },
+  warningText: { flex: 1, fontSize: 10, color: '#EF4444', fontWeight: '800', lineHeight: 14 },
+  stickyFooter: { position: 'absolute', bottom: 0, left: 0, right: 0, padding: 24, backgroundColor: 'rgba(248, 250, 252, 0.95)', borderTopWidth: 1, borderTopColor: '#F1F5F9', alignItems: 'center', gap: 12 },
+  emergencyBtn: { width: '100%', height: 60, backgroundColor: '#EF4444', borderRadius: 20, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 12 },
+  emergencyBtnText: { color: '#FFF', fontSize: 16, fontWeight: '800' },
+  clinicLink: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  clinicLinkText: { color: '#0EA5E9', fontSize: 14, fontWeight: '700' },
+});
 
 export default DiagnosisScreen;
