@@ -14,7 +14,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet, onBack, onDiagnose
     <View style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity onPress={onBack} style={styles.navBtn}>
-          <MaterialIcon name="arrow_back" size={24} color="#0F172A" />
+          <MaterialIcon name="arrow-back" size={24} color="#0F172A" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Symptom Checker</Text>
         <TouchableOpacity style={styles.navBtn}>
@@ -28,7 +28,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet, onBack, onDiagnose
           <View style={styles.targetCard}>
             <Image source={{ uri: pet.avatar }} style={styles.targetAvatar} />
             <Text style={styles.targetName}>{pet.name} ({pet.breed})</Text>
-            <MaterialIcon name="expand_more" size={18} color="#CBD5E1" />
+            <MaterialIcon name="expand-more" size={18} color="#CBD5E1" />
           </View>
         </View>
 
@@ -56,7 +56,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet, onBack, onDiagnose
           
           <View style={styles.list}>
             <SymptomItem title="Vomiting" desc="Frequent or acute stomach upset" icon="sick" color="#FFF7ED" iconColor="#F97316" onClick={onDiagnose} />
-            <SymptomItem title="Itching & Scratching" desc="Skin irritation or parasites" icon="pest_control" color="#F0F9FF" iconColor="#0EA5E9" />
+            <SymptomItem title="Itching & Scratching" desc="Skin irritation or parasites" icon="pest-control" color="#F0F9FF" iconColor="#0EA5E9" />
             <SymptomItem title="Limping" desc="Difficulty walking or joint pain" icon="pets" color="#FAF5FF" iconColor="#A855F7" />
           </View>
         </View>
@@ -70,7 +70,7 @@ const SymptomChecker: React.FC<SymptomCheckerProps> = ({ pet, onBack, onDiagnose
               <Text style={styles.promoBtnText}>Call Vet Now</Text>
             </TouchableOpacity>
           </View>
-          <View style={styles.promoBgIcon}><MaterialIcon name="medical_services" size={120} color="#FFF" /></View>
+          <View style={styles.promoBgIcon}><MaterialIcon name="medical-services" size={120} color="rgba(255,255,255,0.1)" /></View>
         </View>
         <View style={{ height: 160 }} />
       </ScrollView>
@@ -87,24 +87,24 @@ const SymptomItem = ({ title, desc, icon, color, iconColor, onClick }: any) => (
       <Text style={styles.itemName}>{title}</Text>
       <Text style={styles.itemDesc}>{desc}</Text>
     </View>
-    <MaterialIcon name="chevron_right" size={20} color="#E2E8F0" />
+    <MaterialIcon name="chevron-right" size={20} color="#E2E8F0" />
   </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { paddingTop: 60, paddingHorizontal: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: 'rgba(248, 250, 252, 0.8)', paddingBottom: 16 },
-  navBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  header: { paddingTop: 60, paddingHorizontal: 24, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', backgroundColor: '#F8FAFC', paddingBottom: 16 },
+  navBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: '#FFF', justifyContent: 'center', alignItems: 'center' },
   headerTitle: { fontSize: 18, fontWeight: '800', color: '#0F172A' },
   content: { flex: 1, paddingHorizontal: 24 },
   targetSection: { alignItems: 'center', marginVertical: 32 },
   targetLabel: { fontSize: 11, fontWeight: '800', color: '#94A3B8', textTransform: 'uppercase', marginBottom: 12 },
-  targetCard: { backgroundColor: '#FFF', borderRadius: 40, paddingHorizontal: 20, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 12, shadowColor: '#000', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.05, shadowRadius: 10 },
+  targetCard: { backgroundColor: '#FFF', borderRadius: 40, paddingHorizontal: 20, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', gap: 12 },
   targetAvatar: { width: 32, height: 32, borderRadius: 16, borderWidth: 2, borderColor: '#0EA5E9' },
   targetName: { fontSize: 14, fontWeight: '800', color: '#0F172A' },
   bodyMapContainer: { height: 320, justifyContent: 'center', alignItems: 'center', marginBottom: 32, position: 'relative' },
-  mapBg: { position: 'absolute', inset: 0, backgroundColor: '#F0F9FF', borderRadius: 48, opacity: 0.5 },
-  bodyMap: { height: 260, width: 200 },
+  mapBg: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#F0F9FF', borderRadius: 48, opacity: 0.5 },
+  bodyMap: { height: 260, width: 200, resizeMode: 'contain' },
   hotspot: { position: 'absolute', top: 120, left: '50%', transform: [{ translateX: -40 }], alignItems: 'center' },
   tooltip: { backgroundColor: '#1E293B', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, marginBottom: 8 },
   tooltipText: { color: '#FFF', fontSize: 10, fontWeight: '800' },
@@ -116,18 +116,18 @@ const styles = StyleSheet.create({
   sectionTitle: { fontSize: 18, fontWeight: '900', color: '#0F172A' },
   seeAll: { fontSize: 13, color: '#0EA5E9', fontWeight: '700' },
   list: { gap: 12 },
-  item: { backgroundColor: '#FFF', borderRadius: 24, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16, shadowColor: '#000', shadowOffset: { width: 0, height: 2 }, shadowOpacity: 0.05, shadowRadius: 5 },
+  item: { backgroundColor: '#FFF', borderRadius: 24, padding: 16, flexDirection: 'row', alignItems: 'center', gap: 16 },
   itemIcon: { width: 48, height: 48, borderRadius: 16, justifyContent: 'center', alignItems: 'center' },
   itemInfo: { flex: 1 },
   itemName: { fontSize: 15, fontWeight: '800', color: '#0F172A' },
   itemDesc: { fontSize: 11, color: '#94A3B8', fontWeight: '800' },
-  promoCard: { backgroundColor: '#0EA5E9', borderRadius: 32, padding: 24, overflow: 'hidden', flexDirection: 'row' },
+  promoCard: { backgroundColor: '#0EA5E9', borderRadius: 32, padding: 24, overflow: 'hidden', flexDirection: 'row', position: 'relative' },
   promoContent: { flex: 1, zIndex: 1 },
   promoTitle: { fontSize: 20, fontWeight: '900', color: '#FFF', marginBottom: 4 },
   promoDesc: { fontSize: 12, color: '#E0F2FE', lineHeight: 18, marginBottom: 16, maxWidth: '80%' },
   promoBtn: { backgroundColor: '#FFF', paddingHorizontal: 20, paddingVertical: 12, borderRadius: 12, flexDirection: 'row', alignSelf: 'flex-start', alignItems: 'center', gap: 8 },
   promoBtnText: { color: '#0EA5E9', fontSize: 13, fontWeight: '800' },
-  promoBgIcon: { position: 'absolute', right: -30, bottom: -30, opacity: 0.1, transform: [{ rotate: '15deg' }] },
+  promoBgIcon: { position: 'absolute', right: -30, bottom: -30 },
 });
 
 export default SymptomChecker;

@@ -114,7 +114,8 @@ const FoodListItem = ({ name, desc, status, emoji, isSafe }: any) => (
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#F8FAFC' },
-  header: { backgroundColor: '#0EA5E9', paddingTop: 60, px: 24, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, paddingBottom: 40 },
+  // Fixed error: changed invalid property 'px' to 'paddingHorizontal'
+  header: { backgroundColor: '#0EA5E9', paddingTop: 60, paddingHorizontal: 24, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, paddingBottom: 40 },
   headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24, paddingHorizontal: 24 },
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 16 },
   backBtn: { width: 44, height: 44, borderRadius: 22, backgroundColor: 'rgba(255, 255, 255, 0.2)', justifyContent: 'center', alignItems: 'center' },

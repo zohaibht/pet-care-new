@@ -5,17 +5,18 @@
     "slug": "aagaz-pet-care",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "https://lh3.googleusercontent.com/aida-public/AB6AXuD9S7paQ1xTCW-V7shP8Ce4ixIU4remZv9ACy2aM0-valnUR9aLhPme65i1o_3sfugnas8d6lS41skZDZYwRMJ4bpb6l4S0NAXoNlxqcEVB1kRZiR6gJpi_9hlG7fhK6aBlsP2CP1_Thyn-Xxq5RkbZtqwLvOJgNtd2MSk4VZcRO-6YlsEc3n3yXouiPekl-v2PHg68cQ5kb0DUrgNYhBGGUaXM827PBqpbKaD5PYSmQi0MyFdUgoq9CldmqcHAB3cNbYf8SZKPirsE",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "splash": {
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "web": {
-      "favicon": "https://lh3.googleusercontent.com/aida-public/AB6AXuD9S7paQ1xTCW-V7shP8Ce4ixIU4remZv9ACy2aM0-valnUR9aLhPme65i1o_3sfugnas8d6lS41skZDZYwRMJ4bpb6l4S0NAXoNlxqcEVB1kRZiR6gJpi_9hlG7fhK6aBlsP2CP1_Thyn-Xxq5RkbZtqwLvOJgNtd2MSk4VZcRO-6YlsEc3n3yXouiPekl-v2PHg68cQ5kb0DUrgNYhBGGUaXM827PBqpbKaD5PYSmQi0MyFdUgoq9CldmqcHAB3cNbYf8SZKPirsE"
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#ffffff"
+      }
     }
   }
 }

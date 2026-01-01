@@ -42,7 +42,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
 
         <TouchableOpacity onPress={onStart} style={styles.startBtn}>
           <Text style={styles.startBtnText}>Get Started</Text>
-          <MaterialIcon name="arrow_forward" color="#FFFFFF" size={20} style={{ marginLeft: 8 }} />
+          <MaterialIcon name="arrow-forward" color="#FFFFFF" size={20} style={{ marginLeft: 8 }} />
         </TouchableOpacity>
         
         <View style={styles.pagination}>
@@ -57,20 +57,20 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onStart }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0F172A', justifyContent: 'space-between', paddingHorizontal: 24, paddingVertical: 48 },
-  backgroundContainer: { position: 'absolute', inset: 0 },
+  backgroundContainer: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 },
   bgImage: { width: '100%', height: '100%', opacity: 0.8 },
-  overlay: { position: 'absolute', inset: 0, backgroundColor: 'rgba(15, 23, 42, 0.7)' },
+  overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(15, 23, 42, 0.7)' },
   header: { alignItems: 'flex-end' },
   loginBtn: { paddingHorizontal: 16, paddingVertical: 6, borderRadius: 20, backgroundColor: 'rgba(255, 255, 255, 0.1)' },
   loginBtnText: { color: 'rgba(255, 255, 255, 0.8)', fontSize: 14, fontWeight: '600' },
   logoSection: { alignItems: 'center' },
-  logoWrapper: { width: 112, height: 112, marginBottom: 24 },
-  logoBg: { position: 'absolute', inset: 0, backgroundColor: '#0EA5E9', borderRadius: 24, transform: [{ rotate: '6deg' }], opacity: 0.6 },
-  logoCard: { flex: 1, backgroundColor: '#FFFFFF', borderRadius: 24, justifyContent: 'center', alignItems: 'center', shadowColor: '#000', shadowOffset: { width: 0, height: 10 }, shadowOpacity: 0.2, shadowRadius: 20 },
+  logoWrapper: { width: 112, height: 112, marginBottom: 24, position: 'relative', justifyContent: 'center', alignItems: 'center' },
+  logoBg: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#0EA5E9', borderRadius: 24, transform: [{ rotate: '6deg' }], opacity: 0.6 },
+  logoCard: { width: '100%', height: '100%', backgroundColor: '#FFFFFF', borderRadius: 24, justifyContent: 'center', alignItems: 'center' },
   brandTitle: { fontSize: 48, fontWeight: '800', color: '#FFFFFF', marginBottom: 8 },
   brandSubtitle: { fontSize: 18, fontWeight: '300', color: '#BFDBFE' },
   footer: { alignItems: 'center' },
-  textGroup: { marginBottom: 32 },
+  textGroup: { marginBottom: 32, alignItems: 'center' },
   mainTagline: { fontSize: 32, fontWeight: '800', color: '#FFFFFF', lineHeight: 40, marginBottom: 8, textAlign: 'center' },
   highlightText: { color: '#38BDF8' },
   subTagline: { fontSize: 14, color: 'rgba(191, 219, 254, 0.8)', maxWidth: 280, textAlign: 'center' },
